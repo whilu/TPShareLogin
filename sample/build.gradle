@@ -2,12 +2,12 @@ apply plugin: 'com.android.application'
 
 android {
     signingConfigs {
-        config {
-            keyAlias 'lujun'
-            keyPassword ''
-            storeFile file('E:/Code/Android/Keystore/linkmob.keystore')
-            storePassword ''
-        }
+//       config {
+//           keyAlias 'lujun'
+//           keyPassword ''
+//           storeFile file('E:/Code/Android/Keystore/linkmob.keystore')
+//           storePassword ''
+//       }
     }
     compileSdkVersion 23
     buildToolsVersion "22.0.1"
