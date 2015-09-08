@@ -4,9 +4,9 @@ android {
     signingConfigs {
         config {
             keyAlias 'lujun'
-            keyPassword 'doneibtp'
-            storeFile file('F:/code/android/keystore/linkmob.keystore')
-            storePassword 'doneibtp'
+            keyPassword ''
+            storeFile file('E:/Code/Android/Keystore/linkmob.keystore')
+            storePassword ''
         }
     }
     compileSdkVersion 23
@@ -24,7 +24,7 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
         debug {
-            signingConfig signingConfigs.config
+//            signingConfig signingConfigs.config
         }
     }
 }

@@ -139,36 +139,36 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.btn_wx_share:
                 WXShareContent contentWX = new WXShareContent();
 
-                //Text
+                //分享Text类型
                 /*contentWX.setText("This is TPShareLogin test, 4 weixin!")
                         .setScene(WXShareContent.WXSession)
                         .setType(WXShareContent.share_type.Text);*/
-                //Webpage
+                //分享Webpage类型
                 /*contentWX.setScene(WXShareContent.WXSession)
                         .setWeb_url("http://lujun.co")
                         .setTitle("WebTitle")
                         .setDescription("Web description, description, description")
                         .setImage_url("http://lujun-wordpress.stor.sinaapp.com/uploads/2014/09/lujun-375x500.jpg")
                         .setType(WXShareContent.share_type.WebPage);*/
-                //Image
+                //分享Image类型
                 /*contentWX.setScene(WXShareContent.WXSession)
                         .setImage_url("http://lujun-wordpress.stor.sinaapp.com/uploads/2014/09/lujun-375x500.jpg")
                         .setType(WXShareContent.share_type.Image);*/
-                //Video
+                //分享Video类型
                 /*contentWX.setScene(WXShareContent.WXSession)
                         .setVideo_url("http://lujun.co")
                         .setTitle("VideoTitle")
                         .setDescription("Video description, description, description")
                         .setImage_url("http://lujun-wordpress.stor.sinaapp.com/uploads/2014/09/lujun-375x500.jpg")
                         .setType(WXShareContent.share_type.Video);*/
-                //Music
+                //分享Music类型
                 /*contentWX.setScene(WXShareContent.WXSession)
                         .setMusic_url("http://lujun.co")
                         .setTitle("MusicTitle")
                         .setDescription("Music description, description, description")
                         .setImage_url("http://lujun-wordpress.stor.sinaapp.com/uploads/2014/09/lujun-375x500.jpg")
                         .setType(WXShareContent.share_type.Music);*/
-                //Appdata
+                //分享Appdata类型
                 contentWX.setScene(WXShareContent.WXSession)
                         .setTitle("AppdataTitle")
                         .setDescription("Appdata description, description, description")
@@ -189,7 +189,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
             case R.id.btn_wb_share:
                 WBShareContent contentWB = new WBShareContent();
-                //UPLOAD
+                //UPLOAD，普通发布微博API接口
                 /*contentWB.setStatus("This is TPShareLogin test, 4 weibo!@whilu ")
                         .setPic(Environment.getExternalStorageDirectory() + "/1234321.png")
                         .setWbShareApiType(WBShareContent.UPLOAD);*/

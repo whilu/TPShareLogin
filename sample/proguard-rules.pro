@@ -17,6 +17,8 @@
 #}
 
 #微信
--keep class com.tencent.mm.sdk.** {
-   *;
-}
+-keep class com.tencent.mm.sdk.** {*;}
+#微博
+-keep class com.sina.**{*;}
+#QQ
+-keep class * extends android.app.Dialog
