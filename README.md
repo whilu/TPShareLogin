@@ -1,4 +1,4 @@
-# TPShareLogin
+# TPShareLogin [![Build Status](https://travis-ci.org/whilu/TPShareLogin.svg)](https://travis-ci.org/whilu/TPShareLogin)
 
 有任何问题，[email me](mailto:lujunat1993@gmail.com).
 
