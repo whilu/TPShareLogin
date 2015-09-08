@@ -55,7 +55,7 @@ public class WXEntryActivity extends AssistActivity {
 ```
 
 然后开始授权登录、分享！
-1. 在程序自定义的Application类中实例化TPManager
+#####a. 在程序自定义的Application类中实例化TPManager
 ```groovy
 //参数分别为微博回调地址、微博APP KEY、微博APP SECRET、QQ APPID、QQ APPSECRET、微信APPID、微信APPSECRET
 TPManager.getInstance().initAppConfig(
@@ -63,7 +63,7 @@ TPManager.getInstance().initAppConfig(
         "", "",
         "", "");
 ```
-2. 登录及分享
+#####b. 登录及分享
 分别提供了`QQManager`、`WXManager`和`WBManager`用于QQ、微信及微博的登录与分享的实现
 QQ登录及分享
 ```groovy
@@ -129,8 +129,7 @@ wbManager.share(contentWB);
 ```
 
 ## 关于
-根据[微信开发文档](https://open.weixin.qq.com/cgi-bin/showdocument?action=dir_list&t=resource/res_list&verify=1&lang=zh_CN)、[微博开发文档](http://open.weibo.com/wiki/%E9%A6%96%E9%A1%B5)和[QQ开发文档](http://wiki.connect.qq.com/)开发，参考[ShareLoginLib](https://github.com/lingochamp/ShareLoginLib)
-有任何问题，[email me](mailto:lujunat1993@gmail.com).
+根据[微信开发文档](https://open.weixin.qq.com/cgi-bin/showdocument?action=dir_list&t=resource/res_list&verify=1&lang=zh_CN)、[微博开发文档](http://open.weibo.com/wiki/%E9%A6%96%E9%A1%B5)和[QQ开发文档](http://wiki.connect.qq.com/)开发，参考[ShareLoginLib](https://github.com/lingochamp/ShareLoginLib)，有任何问题，[email me](mailto:lujunat1993@gmail.com).
 
 ## License
 Copyright (c) 2015 [lujun](http://lujun.co)
