@@ -31,6 +31,6 @@ android {
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
-    compile project(':library')
+    compile project(':tpsharelogin')
     compile 'com.android.support:appcompat-v7:23.0.0'
 }

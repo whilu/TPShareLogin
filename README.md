@@ -6,14 +6,14 @@
 #### Gradle
 ```xml
 dependencies {
-    compile 'co.lujun.TPShareLogin:library:1.0.0'
+    compile 'co.lujun:TPShareLogin:1.0.0'
 }
 ```
 
 #### 本地导入library使用
-######1、导入library
-######2、在Project下的settings.gradle中添加`include ':library'`
-######3、使用该库的Module/build.gradle中dependencies语句添加`compile project(':library')`
+######1、导入tpsharelogin库
+######2、在Project下的settings.gradle中添加`include ':tpsharelogin'`
+######3、使用该库的Module/build.gradle中dependencies语句添加`compile project(':tpsharelogin')`
 
 ### 使用
 首先，在AndroidManifest.xml中配置需要的权限
@@ -49,10 +49,10 @@ dependencies {
 
 <!-- Weibo-->
 ```
-其中`WXEntryActivity`位于`程序包名.wxapi`下，继承自`co.lujun.library.platform.weixin.AssistActivity`，如下：
+其中`WXEntryActivity`位于`程序包名.wxapi`下，继承自`co.lujun.tpsharelogin.platform.weixin.AssistActivity`，如下：
 ```groovy
 package co.lujun.sample.wxapi;
-import co.lujun.library.platform.weixin.AssistActivity;
+import co.lujun.tpsharelogin.platform.weixin.AssistActivity;
 
 public class WXEntryActivity extends AssistActivity {
 }

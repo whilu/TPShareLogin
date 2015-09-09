@@ -9,16 +9,14 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 
-import java.util.Objects;
-
-import co.lujun.library.TPManager;
-import co.lujun.library.bean.QQShareContent;
-import co.lujun.library.bean.WBShareContent;
-import co.lujun.library.bean.WXShareContent;
-import co.lujun.library.listener.StateListener;
-import co.lujun.library.platform.qq.QQManager;
-import co.lujun.library.platform.weibo.WBManager;
-import co.lujun.library.platform.weixin.WXManager;
+import co.lujun.tpsharelogin.TPManager;
+import co.lujun.tpsharelogin.bean.QQShareContent;
+import co.lujun.tpsharelogin.bean.WBShareContent;
+import co.lujun.tpsharelogin.bean.WXShareContent;
+import co.lujun.tpsharelogin.listener.StateListener;
+import co.lujun.tpsharelogin.platform.qq.QQManager;
+import co.lujun.tpsharelogin.platform.weibo.WBManager;
+import co.lujun.tpsharelogin.platform.weixin.WXManager;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 

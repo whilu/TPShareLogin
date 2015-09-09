@@ -1,6 +1,6 @@
 package co.lujun.sample.wxapi;
 
-import co.lujun.library.platform.weixin.AssistActivity;
+import co.lujun.tpsharelogin.platform.weixin.AssistActivity;
 
 /**
  * Created by lujun on 2015/9/8.
