@@ -69,7 +69,7 @@ TPManager.getInstance().initAppConfig(
 ```
 #####b. 登录及分享
 分别提供了`QQManager`、`WXManager`和`WBManager`用于QQ、微信及微博的登录与分享的实现
-QQ登录及分享
+######QQ登录及分享
 ```groovy
 QQManager qqManager = new QQManager(this);
 StateListener<Object> qqStateListener = new StateListener<Object>() {
@@ -103,7 +103,7 @@ contentQQ.setTitle("TPShareLogin Test")
         .setSummary("This is TPShareLogin test, 4 qq!");
 qqManager.share(contentQQ);
 ```
-微信登录及分享
+######微信登录及分享
 ```groovy
 WXManager wxManager = new WXManager(this);
 wxManager.setListener(StateListener<String>);
@@ -113,7 +113,7 @@ wxManager.onLoginWithWX();
 WXShareContent contentWX = new WXShareContent();
 wxManager.share(contentWX);
 ```
-微博登录及分享
+######微博登录及分享
 ```groovy
 WBManager wbManager = new WBManager(this);
 wbManager.setListener(StateListener<String>);
@@ -127,7 +127,7 @@ wbManager.share(contentWB);
 
 ## 注意事项
 ### 依赖库冲突
-本库使用了[Retrofit](https://github.com/square/retrofit)、[RxAndroid](https://github.com/ReactiveX/RxAndroid)及[RxJava](https://github.com/ReactiveX/RxJava)等库，若你的项目中也使用了这些依赖库并发生了冲突，请在添加本库依赖是如下进行：
+本库使用了[Retrofit](https://github.com/square/retrofit)、[RxAndroid](https://github.com/ReactiveX/RxAndroid)及[RxJava](https://github.com/ReactiveX/RxJava)等库，若你的项目中也使用了这些依赖库并发生了冲突，请在添加本库依赖时如下进行：
 ```xml
 dependencies {
     compile ('co.lujun:tpsharelogin:1.0.0'){
@@ -145,7 +145,7 @@ dependencies {
 ```
 
 ## 关于
-根据[微信开发文档](https://open.weixin.qq.com/cgi-bin/showdocument?action=dir_list&t=resource/res_list&verify=1&lang=zh_CN)、[微博开发文档](http://open.weibo.com/wiki/%E9%A6%96%E9%A1%B5)和[QQ开发文档](http://wiki.connect.qq.com/)开发，参考[ShareLoginLib](https://github.com/lingochamp/ShareLoginLib)，有任何问题，[email me](mailto:lujunat1993@gmail.com).
+根据[微信开发文档](https://open.weixin.qq.com/cgi-bin/showdocument?action=dir_list&t=resource/res_list&verify=1&lang=zh_CN)、[微博开发文档](http://open.weibo.com/wiki/%E9%A6%96%E9%A1%B5)和[QQ开发文档](http://wiki.connect.qq.com/)开发，参考[ShareLoginLib](https://github.com/lingochamp/ShareLoginLib)，有任何问题，[Email me](mailto:lujunat1993@gmail.com).
 
 ## License
 Copyright (c) 2015 [lujun](http://lujun.co)
