@@ -6,7 +6,7 @@
 #### Gradle
 ```xml
 dependencies {
-    compile 'co.lujun:TPShareLogin:1.0.0'
+    compile 'co.lujun:tpsharelogin:1.0.0'
 }
 ```
 
@@ -130,7 +130,7 @@ wbManager.share(contentWB);
 本库使用了[Retrofit](https://github.com/square/retrofit)、[RxAndroid](https://github.com/ReactiveX/RxAndroid)及[RxJava](https://github.com/ReactiveX/RxJava)等库，若你的项目中也使用了这些依赖库并发生了冲突，请在添加本库依赖是如下进行：
 ```xml
 dependencies {
-    compile ('co.lujun.TPShareLogin:library:1.0.0'){
+    compile ('co.lujun:tpsharelogin:1.0.0'){
         exclude module:'retrofit'
         exclude module:'rxjava'
         exclude module:'rxandroid'
