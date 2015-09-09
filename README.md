@@ -4,7 +4,11 @@
 ## 开始使用
 ### 引入库
 #### Gradle
-稍后提供
+```xml
+dependencies {
+    compile 'co.lujun.TPShareLogin:library:1.0.0'
+}
+```
 
 #### 本地导入library使用
 ######1、导入library
@@ -121,7 +125,19 @@ wbManager.share(contentWB);
 ```
 更多详细使用请见[Sample](https://github.com/whilu/TPShareLogin/tree/master/sample)示例。
 
-## 混淆注意
+## 注意事项
+### 依赖库冲突
+本库使用了[Retrofit](https://github.com/square/retrofit)、[RxAndroid](https://github.com/ReactiveX/RxAndroid)及[RxJava](https://github.com/ReactiveX/RxJava)等库，若你的项目中也使用了这些依赖库并发生了冲突，请在添加本库依赖是如下进行：
+```xml
+dependencies {
+    compile ('co.lujun.TPShareLogin:library:1.0.0'){
+        exclude module:'retrofit'
+        exclude module:'rxjava'
+        exclude module:'rxandroid'
+    }
+}
+```
+### 混淆
 ```groovy
 -keep class com.tencent.mm.sdk.** {*;}
 -keep class com.sina.**{*;}
