@@ -6,7 +6,7 @@
 #### Gradle
 ```xml
 dependencies {
-    compile 'co.lujun:tpsharelogin:1.0.0'
+    compile 'co.lujun:tpsharelogin:1.0.1'
 }
 ```
 
@@ -72,10 +72,10 @@ TPManager.getInstance().initAppConfig(
 ######QQ登录及分享
 ```groovy
 QQManager qqManager = new QQManager(this);
-StateListener<Object> qqStateListener = new StateListener<Object>() {
+StateListener<String> qqStateListener = new StateListener<String>() {
     @Override
-    public void onComplete(Object o) {
-        Log.d(TAG, o.toString());
+    public void onComplete(String s) {
+        Log.d(TAG, s);
     }
 
     @Override
@@ -106,7 +106,7 @@ qqManager.share(contentQQ);
 ######微信登录及分享
 ```groovy
 WXManager wxManager = new WXManager(this);
-wxManager.setListener(StateListener<String>);
+wxManager.setListener(StateListener<String> wxStateListener);
 //微信登录
 wxManager.onLoginWithWX();
 //微信分享
@@ -116,7 +116,7 @@ wxManager.share(contentWX);
 ######微博登录及分享
 ```groovy
 WBManager wbManager = new WBManager(this);
-wbManager.setListener(StateListener<String>);
+wbManager.setListener(StateListener<String> wbStateListener);
 //微博登录
 wbManager.onLoginWithWB();
 //微博分享
