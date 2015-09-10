@@ -14,6 +14,7 @@ public class Config {
     public final static String KEY_OF_EXPIRES_IN = "key_of_expires_in";
     public final static String KEY_OF_OPEN_ID = "key_of_open_id";
     public final static String KEY_OF_API_TYPE = "key_of_api_type";
+    public final static String KEY_OF_VERIFY_DATA = "key_of_verify_data";
 
     public final static int SHARE_TYPE = 0x1001;
     public final static int LOGIN_TYPE = 0x1002;

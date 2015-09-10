@@ -17,7 +17,7 @@ public class WBManager {
 
     private Context mContext;
     private Intent mIntent;
-    private StateListener mListener;
+    private StateListener<String> mListener;
     private ReceiveBroadCast mReceiveBroadCast;
 
     public WBManager(Context context){
@@ -62,7 +62,7 @@ public class WBManager {
      * 设置登录callback
      * @param listener
      */
-    public void setListener(StateListener listener){
+    public void setListener(StateListener<String> listener){
         this.mListener = listener;
     }
 

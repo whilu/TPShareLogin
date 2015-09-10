@@ -63,7 +63,7 @@ public class QQManager {
      * 设置登录callback
      * @param listener
      */
-    public void setListener(StateListener listener){
+    public void setListener(StateListener<String> listener){
         this.mListener = listener;
     }
 
@@ -73,7 +73,7 @@ public class QQManager {
      * @param expires_in
      * @param openId
      */
-    private void getUserInfo(String accessToken, String expires_in, String openId){
+    private void getUserInfo(String accessToken, String expires_in, String openId, final String verifyData){
         Tencent tencent = Tencent.createInstance(TPManager.getInstance().getQQAppId(), mContext);
         tencent.setAccessToken(accessToken, expires_in);
         tencent.setOpenId(openId);
@@ -82,7 +82,12 @@ public class QQManager {
         mUserInfoListener.setListener(new StateListener<Object>() {
             @Override
             public void onComplete(Object o) {
-                mListener.onComplete(o.toString());
+                // 返回格式如下
+                /*{
+                  "userData":{},
+                  "verifyData":{}
+                }*/
+                mListener.onComplete("{\"userData\":" + o.toString() + "," + "\"verifyData\":" +  verifyData + "}");
             }
 
             @Override
@@ -110,7 +115,8 @@ public class QQManager {
                     getUserInfo(
                             intent.getStringExtra(Config.KEY_OF_ACCESS_TOKEN),
                             intent.getStringExtra(Config.KEY_OF_EXPIRES_IN),
-                            intent.getStringExtra(Config.KEY_OF_OPEN_ID)
+                            intent.getStringExtra(Config.KEY_OF_OPEN_ID),
+                            intent.getStringExtra(Config.KEY_OF_VERIFY_DATA)
                     );
                 }else {
                     mListener.onComplete(intent.getStringExtra(Config.KEY_OF_QQ_BCR));

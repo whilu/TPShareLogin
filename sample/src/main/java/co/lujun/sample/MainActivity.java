@@ -60,11 +60,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         wxManager = new WXManager(this);
         wbManager = new WBManager(this);
         //
-        StateListener<Object> qqStateListener = new StateListener<Object>() {
+        StateListener<String> qqStateListener = new StateListener<String>() {
 
             @Override
-            public void onComplete(Object o) {
-                Log.d(TAG, o.toString());
+            public void onComplete(String s) {
+                Log.d(TAG, s);
             }
 
             @Override

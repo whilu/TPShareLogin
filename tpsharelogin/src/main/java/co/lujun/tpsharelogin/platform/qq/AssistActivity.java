@@ -75,6 +75,7 @@ public class AssistActivity extends Activity {
                     mIntent.putExtra(Config.KEY_OF_ACCESS_TOKEN, accessToken);
                     mIntent.putExtra(Config.KEY_OF_EXPIRES_IN, expires_in);
                     mIntent.putExtra(Config.KEY_OF_OPEN_ID, openId);
+                    mIntent.putExtra(Config.KEY_OF_VERIFY_DATA, o.toString());
                     onSendBroadCast();
                 }else{
                     mIntent.putExtra(Config.KEY_OF_QQ_BCR, "share successful!");

@@ -101,14 +101,20 @@ public class AssistActivity extends Activity implements IWeiboHandler.Response {
      * 微博获取用户信息
      * @param accessToken
      */
-    private void getUserInfo(Oauth2AccessToken accessToken){
+    private void getUserInfo(final Oauth2AccessToken accessToken){
         if (accessToken != null && accessToken.isSessionValid()){
             mUsersAPI = new UsersAPI(this, appid, accessToken);
             AsyncRequestListener listener = new AsyncRequestListener();
             listener.setStateListener(new StateListener<String>() {
                 @Override
                 public void onComplete(String s) {
-                    mIntent.putExtra(Config.KEY_OF_WB_BCR, s);
+                    // 返回格式如下
+                    /*{
+                      "userData":{},
+                      "verifyData":{}
+                    }*/
+                    String result = "{\"userData\":" + s + "," + "\"verifyData\":{" +  accessToken.toString() + "}}";
+                    mIntent.putExtra(Config.KEY_OF_WB_BCR, result);
                     onSendBroadCast();
                 }
 

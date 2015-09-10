@@ -129,7 +129,7 @@ public class AssistActivity extends Activity implements IWXAPIEventHandler {
                                     JSONObject jsonObject = new JSONObject(jsonStr);
                                     String accesstoken = jsonObject.getString("access_token");
                                     String openid = jsonObject.getString("openid");
-                                    getUserInfo(mRestAdapter, accesstoken, openid);
+                                    getUserInfo(mRestAdapter, accesstoken, openid, jsonStr);
                                 } catch (JSONException e) {
                                     e.printStackTrace();
                                     mListener.onError(e.toString());
@@ -145,7 +145,7 @@ public class AssistActivity extends Activity implements IWXAPIEventHandler {
      * @param access_token
      * @param openid
      */
-    private void getUserInfo(RestAdapter restAdapter, String access_token, String openid){
+    private void getUserInfo(RestAdapter restAdapter, String access_token, String openid, final String verifyData){
         restAdapter.create(WXApiService.class)
                 .getUserInfo(access_token, openid)
                 .subscribeOn(Schedulers.io())
@@ -165,7 +165,12 @@ public class AssistActivity extends Activity implements IWXAPIEventHandler {
                             @Override
                             public void onNext(Response response) {
                                 String jsonStr = new String(((TypedByteArray) response.getBody()).getBytes());
-                                mListener.onComplete(jsonStr);
+                                // 返回格式如下
+                                /*{
+                                  "userData":{},
+                                  "verifyData":{}
+                                }*/
+                                mListener.onComplete("{\"userData\":" + jsonStr + "," + "\"verifyData\":" +  verifyData + "}");
                             }
                         }
                 );

@@ -123,6 +123,17 @@ wbManager.onLoginWithWB();
 WBShareContent contentWB = new WBShareContent();
 wbManager.share(contentWB);
 ```
+授权登录成功返回的数据格式为json字符串，如下：
+```groovy
+{
+  "userData":{
+       //这里面是返回的用户数据信息
+  },
+  "verifyData":{
+       //这里面是返回的认证信息，包括access_token、openid等
+  }
+}
+```
 更多详细使用请见[Sample](https://github.com/whilu/TPShareLogin/tree/master/sample)示例。
 
 ## 注意事项
