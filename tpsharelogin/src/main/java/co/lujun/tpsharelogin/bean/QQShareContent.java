@@ -3,6 +3,7 @@ package co.lujun.tpsharelogin.bean;
 import android.os.Bundle;
 
 import com.tencent.connect.share.QQShare;
+import com.tencent.tauth.Tencent;
 
 /**
  * Created by lujun on 2015/9/6.
@@ -26,6 +27,19 @@ public class QQShareContent {
 
     //标识该消息的来源应用，值为应用名称+AppId
     private String appsource;
+
+    //分享的类型
+    // QQShare.SHARE_TO_QQ_TYPE_DEFAULT，默认图文消息
+    // QQShare.SHARE_TO_QQ_TYPE_IMAGE，本地图片
+    private int shareType;
+
+    //分享额外选项，默认是不隐藏分享到QZone按钮且不自动打开分享到QZone的对话框
+    //QQShare.SHARE_TO_QQ_FLAG_QZONE_AUTO_OPEN，分享时自动打开分享到QZone的对话框
+    //QQShare.SHARE_TO_QQ_FLAG_QZONE_ITEM_HIDE，分享时隐藏分享到QZone按钮
+    private int shareExt;
+
+    //分享本地图片的path
+    private String image_path;
 
     //bundle
     private Bundle mBundle;
@@ -70,6 +84,28 @@ public class QQShareContent {
         return this;
     }
 
+    public QQShareContent setShareExt(int shareExt) {
+        this.shareExt = shareExt;
+        mBundle.putInt(QQShare.SHARE_TO_QQ_EXT_INT, shareExt);
+        return this;
+    }
+
+    public QQShareContent setShareType(int shareType) {
+        this.shareType = shareType;
+        mBundle.putInt(QQShare.SHARE_TO_QQ_KEY_TYPE, shareType);
+        return this;
+    }
+
+    public QQShareContent setImage_path(String image_path) {
+        this.image_path = image_path;
+        mBundle.putString(QQShare.SHARE_TO_QQ_IMAGE_LOCAL_URL, image_path);
+        return this;
+    }
+
+    public String getImage_path() {
+        return image_path;
+    }
+
     public String getTarget_url() {
         return target_url;
     }
@@ -92,6 +128,14 @@ public class QQShareContent {
 
     public String getAppsource() {
         return appsource;
+    }
+
+    public int getShareType(){
+        return shareType;
+    }
+
+    public int getShareExt(){
+        return shareExt;
     }
 
     public Bundle getBundle() {

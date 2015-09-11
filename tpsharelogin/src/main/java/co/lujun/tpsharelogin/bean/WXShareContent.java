@@ -5,9 +5,10 @@ package co.lujun.tpsharelogin.bean;
  */
 public class WXShareContent {
 
-    public static final int WXSession = 0;
-    public static final int WXTimeline = 1;
-    public static final int WXFavorite = 2;
+    //分享场景
+    public static final int WXSession = 0;// 会话
+    public static final int WXTimeline = 1;// 朋友圈
+    public static final int WXFavorite = 2;// 收藏
 
     /**
      * 暂只提供对Text, Image, Music, Video, WebPage, Appdata的支持

@@ -43,9 +43,9 @@ public class WBShareContent {
         return this;
     }
 
-    public WBShareContent setPic(String pic) {
-        this.pic = pic;
-        mBundle.putString("pic", pic);
+    public WBShareContent setImage_path(String path) {
+        this.image_path = path;
+        mBundle.putString("image_path", path);
         return this;
     }
 
@@ -96,7 +96,7 @@ public class WBShareContent {
 
     private String list_id;// 微博的保护投递指定分组ID，只有当visible参数为3时生效且必选
     
-    private String pic;// 本地图片path
+    private String image_path;// 本地图片path
 
     private String url;// 图片的URL地址，必须以http开头
 

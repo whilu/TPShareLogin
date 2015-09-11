@@ -111,9 +111,14 @@ public class AssistActivity extends Activity implements IWeiboHandler.Response {
                     // 返回格式如下
                     /*{
                       "userData":{},
-                      "verifyData":{}
+                      "verifyData":{}   \"
                     }*/
-                    String result = "{\"userData\":" + s + "," + "\"verifyData\":{" +  accessToken.toString() + "}}";
+                    String verifyData = "\"uid\":\"" + accessToken.getUid() + "\","
+                            + "\"access_token\":\"" + accessToken.getToken() + "\","
+                            + "\"refresh_token\":\"" + accessToken.getRefreshToken() + "\","
+                            + "\"phone_num\":\"" + accessToken.getPhoneNum() + "\","
+                            + "\"expires_in\":\"" + Long.toString(accessToken.getExpiresTime()) + "\"";
+                    String result = "{\"userData\":" + s + "," + "\"verifyData\":{" +  verifyData + "}}";
                     mIntent.putExtra(Config.KEY_OF_WB_BCR, result);
                     onSendBroadCast();
                 }
@@ -147,7 +152,7 @@ public class AssistActivity extends Activity implements IWeiboHandler.Response {
             params.put("visible",mBundle.getInt("visible", 0));
             params.put("list_id", getBundleString("list_id"));
             if (apiType == WBShareContent.UPLOAD){
-                params.put("pic", BitmapFactory.decodeFile(getBundleString("pic")));
+                params.put("pic", BitmapFactory.decodeFile(getBundleString("image_path")));
             }else {
                 params.put("url", getBundleString("url"));
             }

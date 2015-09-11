@@ -6,7 +6,7 @@
 #### Gradle
 ```xml
 dependencies {
-    compile 'co.lujun:tpsharelogin:1.0.1'
+    compile 'co.lujun:tpsharelogin:1.0.2'
 }
 ```
 

@@ -9,22 +9,34 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".MainActivity">
 
+    <Button
+        android:id="@+id/btn_qq_login"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="QQ登录" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
         <Button
-            android:id="@+id/btn_qq_login"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="QQ登录" />
-
-        <Button
             android:id="@+id/btn_qq_share"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="QQ分享" />
+
+        <Button
+            android:id="@+id/btn_qq_share_qzone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="QZONE分享" />
+
+        <Button
+            android:id="@+id/btn_qq_share_local_image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="QQ分享本地图片" />
 
     </LinearLayout>
 

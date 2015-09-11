@@ -9,6 +9,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 
+import com.tencent.connect.share.QQShare;
+
 import co.lujun.tpsharelogin.TPManager;
 import co.lujun.tpsharelogin.bean.QQShareContent;
 import co.lujun.tpsharelogin.bean.WBShareContent;
@@ -20,7 +22,8 @@ import co.lujun.tpsharelogin.platform.weixin.WXManager;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private Button btnQQLogin, btnQQShare, btnWXLogin, btnWXShare, btnWXShareTimeLine,
+    private Button btnQQLogin, btnQQShare, btnQZoneShre, btnQQShareLocalImg,
+            btnWXLogin, btnWXShare, btnWXShareTimeLine,
             btnWBLogin, btnWBShare, btnWBShareFromUrl;
     private QQManager qqManager;
     private WXManager wxManager;
@@ -35,6 +38,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         btnQQLogin = (Button) findViewById(R.id.btn_qq_login);
         btnQQShare = (Button) findViewById(R.id.btn_qq_share);
+        btnQZoneShre = (Button) findViewById(R.id.btn_qq_share_qzone);
+        btnQQShareLocalImg = (Button) findViewById(R.id.btn_qq_share_local_image);
         btnWXLogin = (Button) findViewById(R.id.btn_wx_login);
         btnWXShare = (Button) findViewById(R.id.btn_wx_share);
         btnWXShareTimeLine = (Button) findViewById(R.id.btn_wx_share_timeline);
@@ -44,6 +49,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         btnQQLogin.setOnClickListener(this);
         btnQQShare.setOnClickListener(this);
+        btnQZoneShre.setOnClickListener(this);
+        btnQQShareLocalImg.setOnClickListener(this);
         btnWXLogin.setOnClickListener(this);
         btnWBShare.setOnClickListener(this);
         btnWXShare.setOnClickListener(this);
@@ -120,21 +127,41 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View view) {
         int id = view.getId();
         switch (id){
-            case R.id.btn_qq_login:
+            case R.id.btn_qq_login:// QQ登录
                 qqManager.onLoginWithQQ();
                 break;
-            case R.id.btn_qq_share:
+            case R.id.btn_qq_share:// QQ分享图文消息
                 QQShareContent contentQQ = new QQShareContent();
-                contentQQ.setTitle("TPShareLogin Test")
+                contentQQ
+                        .setShareType(QQShare.SHARE_TO_QQ_TYPE_DEFAULT)
+                        .setTitle("TPShareLogin Test")
                         .setTarget_url("http://lujun.co")
                         .setImage_url("http://lujun-wordpress.stor.sinaapp.com/uploads/2014/09/lujun-375x500.jpg")
                         .setSummary("This is TPShareLogin test, 4 qq!");
                 qqManager.share(contentQQ);
                 break;
-            case R.id.btn_wx_login:
+            case R.id.btn_qq_share_qzone:// QZONE分享图文消息
+                QQShareContent contentQZone = new QQShareContent();
+                contentQZone
+                        .setShareType(QQShare.SHARE_TO_QQ_TYPE_DEFAULT)
+                        .setTitle("TPShareLogin Test")
+                        .setTarget_url("http://lujun.co")
+                        .setImage_url("http://lujun-wordpress.stor.sinaapp.com/uploads/2014/09/lujun-375x500.jpg")
+                        .setSummary("This is TPShareLogin test, 4 qq!")
+                        .setShareExt(QQShare.SHARE_TO_QQ_FLAG_QZONE_AUTO_OPEN);
+                qqManager.share(contentQZone);
+                break;
+            case R.id.btn_qq_share_local_image:// QQ分享本地图片
+                QQShareContent contentQQImage = new QQShareContent();
+                contentQQImage
+                        .setShareType(QQShare.SHARE_TO_QQ_TYPE_IMAGE)
+                        .setImage_path(Environment.getExternalStorageDirectory() + "/1234321.png");
+                qqManager.share(contentQQImage);
+                break;
+            case R.id.btn_wx_login:// 微信登录
                 wxManager.onLoginWithWX();
                 break;
-            case R.id.btn_wx_share:
+            case R.id.btn_wx_share:// 微信分享
                 WXShareContent contentWX = new WXShareContent();
 
                 //分享Text类型
@@ -175,17 +202,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         .setType(WXShareContent.share_type.Appdata);
                 wxManager.share(contentWX);
                 break;
-            case R.id.btn_wx_share_timeline:
+            case R.id.btn_wx_share_timeline:// 微信朋友圈分享
                 WXShareContent contentWX2 = new WXShareContent();
                 contentWX2.setText("This is TPShareLogin test, 4 weixin timeline!")
                         .setScene(WXShareContent.WXTimeline)
                         .setType(WXShareContent.share_type.Text);
                 wxManager.share(contentWX2);
                 break;
-            case R.id.btn_wb_login:
+            case R.id.btn_wb_login:// 微博登录
                 wbManager.onLoginWithWB();
                 break;
-            case R.id.btn_wb_share:
+            case R.id.btn_wb_share_url:// 微博分享远程图片和文字消息
                 WBShareContent contentWB = new WBShareContent();
                 //UPLOAD，普通发布微博API接口
                 /*contentWB.setStatus("This is TPShareLogin test, 4 weibo!@whilu ")
@@ -198,10 +225,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 wbManager.share(contentWB);
                 break;
 
-            case R.id.btn_wb_share_url:
+            case R.id.btn_wb_share:// 微博分享本地图片和文字消息
                 WBShareContent contentWB2 = new WBShareContent();
                 contentWB2.setStatus("This is TPShareLogin test, 4 weibo!@whilu ")
-                        .setPic(Environment.getExternalStorageDirectory() + "/1234321.png")
+                        .setImage_path(Environment.getExternalStorageDirectory() + "/1234321.png")
                         .setWbShareApiType(WBShareContent.UPLOAD);
                 wbManager.share(contentWB2);
                 break;
