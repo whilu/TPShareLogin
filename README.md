@@ -153,6 +153,9 @@ dependencies {
 -keep class com.tencent.mm.sdk.** {*;}
 -keep class com.sina.**{*;}
 -keep class * extends android.app.Dialog
+-keep class retrofit.** { *; }
+-keepattributes Signature
+-keepattributes Exceptions
 ```
 
 ## 关于
