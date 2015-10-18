@@ -167,10 +167,10 @@ public class AssistActivity extends Activity implements IWXAPIEventHandler {
                                 String jsonStr = new String(((TypedByteArray) response.getBody()).getBytes());
                                 // 返回格式如下
                                 /*{
-                                  "userData":{},
-                                  "verifyData":{}
-                                }*/
-                                mListener.onComplete("{\"userData\":" + jsonStr + "," + "\"verifyData\":" +  verifyData + "}");
+                                     "user_data":{},
+                                     "verify_data":{}   \"
+                                 }*/
+                                mListener.onComplete("{\"user_data\":" + jsonStr + "," + "\"verify_data\":" +  verifyData + "}");
                             }
                         }
                 );

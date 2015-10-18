@@ -110,15 +110,15 @@ public class AssistActivity extends Activity implements IWeiboHandler.Response {
                 public void onComplete(String s) {
                     // 返回格式如下
                     /*{
-                      "userData":{},
-                      "verifyData":{}   \"
+                      "user_data":{},
+                      "verify_data":{}   \"
                     }*/
                     String verifyData = "\"uid\":\"" + accessToken.getUid() + "\","
                             + "\"access_token\":\"" + accessToken.getToken() + "\","
                             + "\"refresh_token\":\"" + accessToken.getRefreshToken() + "\","
                             + "\"phone_num\":\"" + accessToken.getPhoneNum() + "\","
                             + "\"expires_in\":\"" + Long.toString(accessToken.getExpiresTime()) + "\"";
-                    String result = "{\"userData\":" + s + "," + "\"verifyData\":{" +  verifyData + "}}";
+                    String result = "{\"user_data\":" + s + "," + "\"verify_data\":{" +  verifyData + "}}";
                     mIntent.putExtra(Config.KEY_OF_WB_BCR, result);
                     onSendBroadCast();
                 }

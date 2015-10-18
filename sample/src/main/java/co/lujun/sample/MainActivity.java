@@ -60,8 +60,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         //参数分别为微博回调地址、微博APP KEY、微博APP SECRET、QQ APPID、QQ APPSECRET、微信APPID、微信APPSECRET
         TPManager.getInstance().initAppConfig(
-                "http://lujun.co", "", "",
-                "", "",
+                "http://lujun.co", "1801471434", "6c4bf7a0f7f757b6ae3288ab2a53046e",
+                "1104730321", "9QoiADlAfE5TlMZQ",
                 "", "");
         qqManager = new QQManager(this);
         wxManager = new WXManager(this);
