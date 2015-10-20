@@ -26,4 +26,7 @@ public class Config {
 
     public static final String KEY_OF_WB_BCR = "weibo_broadcast_receiver";
     public static final String KEY_OF_WB_BCR_ACTION = "weibo_broadcast_receiver_action";
+
+    public static final int SHARE_CLIENT = 1;
+    public static final int SHARE_ALL_IN_ONE = 2;
 }

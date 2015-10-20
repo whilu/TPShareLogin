@@ -25,7 +25,7 @@ public class AssistActivity extends Activity {
     private BaseUiListener mListener,  mUserInfoListener;
     private Intent mIntent;
 
-    private final static String TAG = "AssistActivity";
+    private static final String TAG = "AssistActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

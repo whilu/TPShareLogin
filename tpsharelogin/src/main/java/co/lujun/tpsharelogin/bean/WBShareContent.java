@@ -90,13 +90,13 @@ public class WBShareContent {
         return this;
     }
 
-    private String status;// 要发布的微博文本内容，必须做URLencode，内容不超过140个汉字
+    private String status;/// 要发布的微博文本内容，必须做URLencode，内容不超过140个汉字
 
     private int visible;// 微博的可见性，0：所有人能看，1：仅自己可见，2：密友可见，3：指定分组可见，默认为0
 
     private String list_id;// 微博的保护投递指定分组ID，只有当visible参数为3时生效且必选
     
-    private String image_path;// 本地图片path
+    private String image_path;/// 本地图片path，imgObg, webpageObj、music、video
 
     private String url;// 图片的URL地址，必须以http开头
 
@@ -113,4 +113,86 @@ public class WBShareContent {
     private Bundle mBundle;
 
     private int wbShareApiType;
+
+    // share content 2
+    private String title;/// webpage、music、video、voice标题
+
+    private String description;/// webpage、music、video、voice描述
+
+    private String actionUrl; /// webpage、music、video、voice URL
+
+    private String dataUrl; /// music、video、voice
+
+    private String dadtaHdUrl; /// music、video、voice
+
+    private int duration; /// music、video、voice
+
+    private String defaultText; /// webpage、music、video、voice默认文案
+
+    private int share_type; /// share type
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getActionUrl() {
+        return actionUrl;
+    }
+
+    public void setActionUrl(String actionUrl) {
+        this.actionUrl = actionUrl;
+    }
+
+    public String getDataUrl() {
+        return dataUrl;
+    }
+
+    public void setDataUrl(String dataUrl) {
+        this.dataUrl = dataUrl;
+    }
+
+    public String getDadtaHdUrl() {
+        return dadtaHdUrl;
+    }
+
+    public void setDadtaHdUrl(String dadtaHdUrl) {
+        this.dadtaHdUrl = dadtaHdUrl;
+    }
+
+    public int getDuration() {
+        return duration;
+    }
+
+    public void setDuration(int duration) {
+        this.duration = duration;
+    }
+
+    public String getDefaultText() {
+        return defaultText;
+    }
+
+    public void setDefaultText(String defaultText) {
+        this.defaultText = defaultText;
+    }
+
+    public int getShare_type() {
+        return share_type;
+    }
+
+    public void setShare_type(int share_type) {
+        this.share_type = share_type;
+    }
+
 }

@@ -31,7 +31,7 @@ public class AssistActivity extends Activity implements IWXAPIEventHandler {
     private IWXAPI mAPI;
     private StateListener<String> mListener;
 
-    private final static String WX_API_HOST = "https://api.weixin.qq.com";
+    private static final String WX_API_HOST = "https://api.weixin.qq.com";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
