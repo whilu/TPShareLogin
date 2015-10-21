@@ -50,7 +50,7 @@ dependencies {
 <!-- Weibo-->
 ```
 其中`WXEntryActivity`位于`程序包名.wxapi`下，继承自`co.lujun.tpsharelogin.platform.weixin.AssistActivity`，如下：
-```groovy
+```java
 package co.lujun.sample.wxapi;
 import co.lujun.tpsharelogin.platform.weixin.AssistActivity;
 
@@ -60,7 +60,7 @@ public class WXEntryActivity extends AssistActivity {
 
 然后开始授权登录、分享！
 #####a. 在程序自定义的Application类中实例化TPManager
-```groovy
+```java
 //参数分别为微博回调地址、微博APP KEY、微博APP SECRET、QQ APPID、QQ APPSECRET、微信APPID、微信APPSECRET
 TPManager.getInstance().initAppConfig(
         "http://lujun.co", "", "",
@@ -70,7 +70,7 @@ TPManager.getInstance().initAppConfig(
 #####b. 登录及分享
 分别提供了`QQManager`、`WXManager`和`WBManager`用于QQ、微信及微博的登录与分享的实现
 ######QQ登录及分享
-```groovy
+```java
 QQManager qqManager = new QQManager(this);
 StateListener<String> qqStateListener = new StateListener<String>() {
     @Override
@@ -90,11 +90,11 @@ StateListener<String> qqStateListener = new StateListener<String>() {
 };
 qqManager.setListener(qqStateListener);
 ```
-```groovy
+```java
 //QQ登录
 qqManager.onLoginWithQQ();
 ```
-```groovy
+```java
 //QQ分享
 QQShareContent contentQQ = new QQShareContent();
 contentQQ.setTitle("TPShareLogin Test")
@@ -104,7 +104,7 @@ contentQQ.setTitle("TPShareLogin Test")
 qqManager.share(contentQQ);
 ```
 ######微信登录及分享
-```groovy
+```java
 WXManager wxManager = new WXManager(this);
 wxManager.setListener(StateListener<String> wxStateListener);
 //微信登录
@@ -114,7 +114,7 @@ WXShareContent contentWX = new WXShareContent();
 wxManager.share(contentWX);
 ```
 ######微博登录及分享
-```groovy
+```java
 WBManager wbManager = new WBManager(this);
 wbManager.setListener(StateListener<String> wbStateListener);
 //微博登录
@@ -124,12 +124,12 @@ WBShareContent contentWB = new WBShareContent();
 wbManager.share(contentWB);
 ```
 授权登录成功返回的数据格式为json字符串，如下：
-```groovy
+```xml
 {
-  "userData":{
+  "user_data":{
        //这里面是返回的用户数据信息
   },
-  "verifyData":{
+  "verify_data":{
        //这里面是返回的认证信息，包括access_token、openid等
   }
 }
@@ -149,7 +149,7 @@ dependencies {
 }
 ```
 ### 混淆
-```groovy
+```xml
 -keep class com.tencent.mm.sdk.** {*;}
 -keep class com.sina.**{*;}
 -keep class * extends android.app.Dialog

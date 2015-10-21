@@ -10,8 +10,17 @@ public class WBShareContent {
     // 提供两种API接口
     // Upload上传图片并发布一条微博
     // UPLOAD_URL_TEXT发布一条微博同时指定上传的图片或图片url
-    public final static int UPLOAD = 1;
-    public final static int UPLOAD_URL_TEXT = 2;
+    public static final int UPLOAD = 1;
+    public static final int UPLOAD_URL_TEXT = 2;
+    
+    public static final int COMMON_SHARE = 3;
+    public static final int API_SHARE = 4;
+    
+    // 网页、音乐、视频、声音
+    public static final int WEBPAGE = 101;
+    public static final int MUSIC = 102;
+    public static final int VIDEO = 103;
+    public static final int VOICE = 104;
 
     public WBShareContent(){
         mBundle = new Bundle();
@@ -21,12 +30,9 @@ public class WBShareContent {
         return this.mBundle;
     }
 
-    public int getWbShareApiType() {
-        return wbShareApiType;
-    }
-
     public WBShareContent setStatus(String status) {
         this.status = status;
+        this.hasText = true;
         mBundle.putString("status", status);
         return this;
     }
@@ -45,6 +51,7 @@ public class WBShareContent {
 
     public WBShareContent setImage_path(String path) {
         this.image_path = path;
+        this.hasImage = true;
         mBundle.putString("image_path", path);
         return this;
     }
@@ -87,6 +94,7 @@ public class WBShareContent {
 
     public WBShareContent setWbShareApiType(int wbShareApiType) {
         this.wbShareApiType = wbShareApiType;
+        mBundle.putInt("wbShareApiType", wbShareApiType);
         return this;
     }
 
@@ -110,6 +118,8 @@ public class WBShareContent {
 
     private String rip;// 开发者上报的操作用户真实IP，形如：211.156.0.1
 
+    private int share_method = COMMON_SHARE;// 3-普通方式分享，4-API方式分享
+
     private Bundle mBundle;
 
     private int wbShareApiType;
@@ -129,70 +139,72 @@ public class WBShareContent {
 
     private String defaultText; /// webpage、music、video、voice默认文案
 
-    private int share_type; /// share type
+    private int content_type = -1;// 分享内容类型，包括网页、音乐等
 
-    public String getTitle() {
-        return title;
-    }
+    private boolean hasText = false;
 
-    public void setTitle(String title) {
+    private int share_type;
+
+    private boolean hasImage = false;
+
+    public WBShareContent setTitle(String title) {
         this.title = title;
+        mBundle.putString("title", title);
+        return this;
     }
 
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
+    public WBShareContent setDescription(String description) {
         this.description = description;
+        mBundle.putString("description", description);
+        return this;
     }
 
-    public String getActionUrl() {
-        return actionUrl;
-    }
-
-    public void setActionUrl(String actionUrl) {
+    public WBShareContent setActionUrl(String actionUrl) {
         this.actionUrl = actionUrl;
+        mBundle.putString("actionUrl", actionUrl);
+        return this;
     }
 
-    public String getDataUrl() {
-        return dataUrl;
-    }
-
-    public void setDataUrl(String dataUrl) {
+    public WBShareContent setDataUrl(String dataUrl) {
         this.dataUrl = dataUrl;
+        mBundle.putString("dataUrl", dataUrl);
+        return this;
     }
 
-    public String getDadtaHdUrl() {
-        return dadtaHdUrl;
-    }
-
-    public void setDadtaHdUrl(String dadtaHdUrl) {
+    public WBShareContent setDadtaHdUrl(String dadtaHdUrl) {
         this.dadtaHdUrl = dadtaHdUrl;
+        mBundle.putString("dadtaHdUrl", dadtaHdUrl);
+        return this;
     }
 
-    public int getDuration() {
-        return duration;
-    }
-
-    public void setDuration(int duration) {
+    public WBShareContent setDuration(int duration) {
         this.duration = duration;
+        mBundle.putInt("duration", duration);
+        return this;
     }
 
-    public String getDefaultText() {
-        return defaultText;
-    }
-
-    public void setDefaultText(String defaultText) {
+    public WBShareContent setDefaultText(String defaultText) {
         this.defaultText = defaultText;
+        mBundle.putString("defaultText", defaultText);
+        return this;
     }
 
-    public int getShare_type() {
-        return share_type;
+    public WBShareContent setShare_method(int method){
+        this.share_method = method;
+        mBundle.putInt("share_method", method);
+        return this;
     }
 
-    public void setShare_type(int share_type) {
+    public WBShareContent setShare_type(int share_type) {
         this.share_type = share_type;
+        mBundle.putInt("share_type", share_type);
+        return this;
+    }
+
+    public WBShareContent setContent_type(int content_type) {
+        this.content_type = content_type;
+        mBundle.putInt("content_type", content_type);
+        return this;
     }
 
 }

@@ -53,7 +53,6 @@ public class WBManager {
     public void share(WBShareContent content){
         mIntent.putExtra(Config.KEY_OF_TYPE, Config.SHARE_TYPE);
         mIntent.putExtra(Config.KEY_OF_BUNDLE, content.getBundle());
-        mIntent.putExtra(Config.KEY_OF_API_TYPE, content.getWbShareApiType());
         mContext.registerReceiver(mReceiveBroadCast, new IntentFilter(Config.KEY_OF_WB_BCR_ACTION));
         mContext.startActivity(mIntent);
     }
@@ -67,7 +66,7 @@ public class WBManager {
     }
 
     /**
-     * 接受QQ授权回调得到的用户信息
+     * 接受WB授权回调得到的用户信息
      */
     private class ReceiveBroadCast extends BroadcastReceiver {
 

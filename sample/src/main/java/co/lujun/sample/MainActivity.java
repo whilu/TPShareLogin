@@ -227,9 +227,32 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             case R.id.btn_wb_share:// 微博分享本地图片和文字消息
                 WBShareContent contentWB2 = new WBShareContent();
-                contentWB2.setStatus("This is TPShareLogin test, 4 weibo!@whilu ")
+//                contentWB2.setStatus("This is TPShareLogin test, 4 weibo!@whilu ")
+//                        .setImage_path(Environment.getExternalStorageDirectory() + "/1234321.png")
+//                        .setWbShareApiType(WBShareContent.UPLOAD);
+                //webpage
+                contentWB2.setShare_method(WBShareContent.COMMON_SHARE)
+                        .setContent_type(WBShareContent.WEBPAGE)
+                        .setStatus("This is TPShareLogin test, 4 weibo!@whilu ")
                         .setImage_path(Environment.getExternalStorageDirectory() + "/1234321.png")
-                        .setWbShareApiType(WBShareContent.UPLOAD);
+                        .setTitle("title")
+                        .setDescription("description")
+                        .setActionUrl("http://lujun.co")
+                        .setDataUrl("http://lujun.co")
+                        .setDadtaHdUrl("http://lujun.co")
+                        .setDefaultText("default action");
+                // music
+//                contentWB2.setShare_method(WBShareContent.COMMON_SHARE)
+//                        .setContent_type(WBShareContent.MUSIC)
+//                        .setStatus("This is TPShareLogin test, 4 weibo!@whilu ")
+//                        .setImage_path(Environment.getExternalStorageDirectory() + "/1234321.png")
+//                        .setTitle("title")
+//                        .setDescription("description")
+//                        .setActionUrl("http://lujun.co")
+//                        .setDuration(10)
+//                        .setDefaultText("default action");
+                // video
+                // voice
                 wbManager.share(contentWB2);
                 break;
             default:break;

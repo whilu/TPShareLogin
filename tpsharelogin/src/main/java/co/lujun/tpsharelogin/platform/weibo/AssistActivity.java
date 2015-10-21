@@ -35,6 +35,7 @@ import com.sina.weibo.sdk.utils.LogUtil;
 import com.sina.weibo.sdk.utils.Utility;
 
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 
 import co.lujun.tpsharelogin.bean.Config;
 import co.lujun.tpsharelogin.bean.WBShareContent;
@@ -66,6 +67,7 @@ public class AssistActivity extends Activity implements IWeiboHandler.Response {
 
     private int apiType;
 
+    private static final int DEFAULT_DURATION = 10;
     public static final String KEY_SHARE_TYPE = "key_share_type";
 
     private int mShareType = Config.SHARE_CLIENT;
@@ -77,8 +79,6 @@ public class AssistActivity extends Activity implements IWeiboHandler.Response {
         //
         String redirectUrl = "";
         final int type = getIntent().getIntExtra(Config.KEY_OF_TYPE, 0x1000);
-        apiType = getIntent().getIntExtra(Config.KEY_OF_API_TYPE, WBShareContent.UPLOAD);
-        mBundle = getIntent().getBundleExtra(Config.KEY_OF_BUNDLE);
         if ((appid = getIntent().getStringExtra(Config.KEY_OF_APPID)) == null
                 || (redirectUrl = getIntent().getStringExtra(Config.KEY_OF_REDIRECT_URL)) == null
                 || type == 0x1000){
@@ -88,18 +88,46 @@ public class AssistActivity extends Activity implements IWeiboHandler.Response {
         // 创建微博分享实例
         wbShareAPI = WeiboShareSDK.createWeiboAPI(this, appid);
         wbShareAPI.registerApp();
+        mIntent = new Intent(Config.KEY_OF_WB_BCR_ACTION);
         if (savedInstanceState != null){
             wbShareAPI.handleWeiboResponse(getIntent(), this);
         }
 
-        if (type == Config.SHARE_TYPE){
-
+        if (type == Config.SHARE_TYPE
+                && mBundle.getInt("share_method", 0) == WBShareContent.COMMON_SHARE){
+            mBundle = getIntent().getBundleExtra(Config.KEY_OF_BUNDLE);
+            if (mBundle == null){
+                mIntent.putExtra(Config.KEY_OF_WB_BCR, "bundle null!");
+                onSendBroadCast();
+            }
+            int content_type = mBundle.getInt("content_type", -1);
+            mShareType = mBundle.getInt("share_type", Config.SHARE_CLIENT);
+            boolean hasText = false;
+            boolean hasImage = false;
+            boolean hasWebpage = false;
+            boolean hasMusic = false;
+            boolean hasVideo = false;
+            boolean hasVoice = false;
+            if (!getBundleString("status").equals("")){
+                hasText = true;
+            }
+            if (!getBundleString("image_path").equals("")){
+                hasImage = true;
+            }
+            if (content_type == WBShareContent.WEBPAGE){
+                hasWebpage = true;
+            }else if (content_type == WBShareContent.MUSIC){
+                hasMusic = true;
+            }else if (content_type == WBShareContent.VIDEO){
+                hasVideo = true;
+            }else if (content_type == WBShareContent.VOICE){
+                hasVoice = true;
+            }
+            sendMessage(hasText, hasImage, hasWebpage, hasMusic, hasVideo, hasVoice);
             return;
         }
 
         mAuthInfo = new AuthInfo(this, appid, redirectUrl, SCOPE);
-        mIntent = new Intent(Config.KEY_OF_WB_BCR_ACTION);
-
         mSsoHandler = new SsoHandler(this, mAuthInfo);
         AuthListener listener = new AuthListener();
         listener.setStateListener(new StateListener<Bundle>() {
@@ -107,11 +135,18 @@ public class AssistActivity extends Activity implements IWeiboHandler.Response {
             public void onComplete(Bundle bundle) {
                 Oauth2AccessToken accessToken = Oauth2AccessToken.parseAccessToken(bundle);
                 AccessTokenKeeper.writeAccessToken(AssistActivity.this, accessToken);
-//                if (type == Config.LOGIN_TYPE){
+                if (type == Config.LOGIN_TYPE){
                     getUserInfo(accessToken);
-//                }else {
-//                    share(accessToken);
-//                }
+                }else if(type == Config.SHARE_TYPE
+                        && mBundle.getInt("share_method", 0) == WBShareContent.API_SHARE) {
+                    mBundle = getIntent().getBundleExtra(Config.KEY_OF_BUNDLE);
+                    if (mBundle == null){
+                        mIntent.putExtra(Config.KEY_OF_WB_BCR, "bundle null!");
+                        onSendBroadCast();
+                    }
+                    apiType = mBundle.getInt("wbShareApiType", WBShareContent.UPLOAD);
+                    share(accessToken);
+                }
             }
 
             @Override
@@ -190,11 +225,11 @@ public class AssistActivity extends Activity implements IWeiboHandler.Response {
             }else {
                 params.put("url", getBundleString("url"));
             }
-//        params.put("pic_id", mBundle.getString("pic_id", ""));
+//        params.put("pic_id", getBundleString("pic_id", ""));
 //        params.put("lat", mBundle.getFloat("lat", 0.0f));
 //        params.put("long", mBundle.getFloat("longt", 0.0f));
-//        params.put("annotations",  mBundle.getString("annotations", ""));
-//        params.put("rip", mBundle.getString("rip", ""));
+//        params.put("annotations",  getBundleString("annotations", ""));
+//        params.put("rip", getBundleString("rip", ""));
 
             AsyncRequestListener listener = new AsyncRequestListener();
             listener.setStateListener(new StateListener() {
@@ -234,7 +269,7 @@ public class AssistActivity extends Activity implements IWeiboHandler.Response {
     }
 
     private String getBundleString(String key){
-        if (TextUtils.isEmpty(mBundle.getString(key))){
+        if (mBundle.getString(key) == null || TextUtils.isEmpty(mBundle.getString(key))){
             return "";
         }
         return mBundle.getString(key);
@@ -305,12 +340,12 @@ public class AssistActivity extends Activity implements IWeiboHandler.Response {
                 }
             } else {
                 Log.i(TAG, "not support api!");
-                mIntent.putExtra(Config.KEY_OF_WB_BCR, "not support api!");
-                onSendBroadCast();
             }
         } else if (mShareType == Config.SHARE_ALL_IN_ONE) {
             sendMultiMessage(hasText, hasImage, hasWebpage, hasMusic, hasVideo, hasVoice);
         }
+        mIntent.putExtra(Config.KEY_OF_WB_BCR, "weibo has send!");
+        onSendBroadCast();
     }
 
     /**
@@ -434,46 +469,13 @@ public class AssistActivity extends Activity implements IWeiboHandler.Response {
     }
 
     /**
-     * 获取分享的文本模板。
-     *
-     * @return 分享的文本模板
-     */
-//    private String getSharedText() {
-//        int formatId = R.string.weibosdk_demo_share_text_template;
-//        String format = getString(formatId);
-//        String text = format;
-//        String demoUrl = getString(R.string.weibosdk_demo_app_url);
-//        if (mTextCheckbox.isChecked() || mImageCheckbox.isChecked()) {
-//            format = getString(R.string.weibosdk_demo_share_text_template);
-//        }
-//        if (mShareWebPageView.isChecked()) {
-//            format = getString(R.string.weibosdk_demo_share_webpage_template);
-//            text = String.format(format, getString(R.string.weibosdk_demo_share_webpage_demo), demoUrl);
-//        }
-//        if (mShareMusicView.isChecked()) {
-//            format = getString(R.string.weibosdk_demo_share_music_template);
-//            text = String.format(format, getString(R.string.weibosdk_demo_share_music_demo), demoUrl);
-//        }
-//        if (mShareVideoView.isChecked()) {
-//            format = getString(R.string.weibosdk_demo_share_video_template);
-//            text = String.format(format, getString(R.string.weibosdk_demo_share_video_demo), demoUrl);
-//        }
-//        if (mShareVoiceView.isChecked()) {
-//            format = getString(R.string.weibosdk_demo_share_voice_template);
-//            text = String.format(format, getString(R.string.weibosdk_demo_share_voice_demo), demoUrl);
-//        }
-//
-//        return text;
-//    }
-
-    /**
      * 创建文本消息对象。
      *
      * @return 文本消息对象。
      */
     private TextObject getTextObj() {
         TextObject textObject = new TextObject();
-        textObject.text = getSharedText();
+        textObject.text = getBundleString("status");
         return textObject;
     }
 
@@ -487,7 +489,7 @@ public class AssistActivity extends Activity implements IWeiboHandler.Response {
 //        BitmapDrawable bitmapDrawable = (BitmapDrawable) mImageView.getDrawable();
         // 设置缩略图。 注意：最终压缩过的缩略图大小不得超过 32kb。
 //        Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.ic_logo);
-        Bitmap bitmap = BitmapFactory.decodeFile("");
+        Bitmap bitmap = BitmapFactory.decodeFile(getBundleString("image_path"));
         imageObject.setImageObject(bitmap);
         return imageObject;
     }
@@ -500,14 +502,15 @@ public class AssistActivity extends Activity implements IWeiboHandler.Response {
     private WebpageObject getWebpageObj() {
         WebpageObject mediaObject = new WebpageObject();
         mediaObject.identify = Utility.generateGUID();
-        mediaObject.title = mShareWebPageView.getTitle();
-        mediaObject.description = mShareWebPageView.getShareDesc();
+        mediaObject.title = getBundleString("title");
+        mediaObject.description = getBundleString("description");
 
-        Bitmap  bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.ic_logo);
+//        Bitmap  bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.ic_logo);
         // 设置 Bitmap 类型的图片到视频对象里,设置缩略图。 注意：最终压缩过的缩略图大小不得超过 32kb。
+        Bitmap bitmap = BitmapFactory.decodeFile(getBundleString("image_path"));
         mediaObject.setThumbImage(bitmap);
-        mediaObject.actionUrl = mShareWebPageView.getShareUrl();
-        mediaObject.defaultText = "Webpage 默认文案";
+        mediaObject.actionUrl = getBundleString("actionUrl");
+        mediaObject.defaultText = getBundleString("defaultText");
         return mediaObject;
     }
 
@@ -520,18 +523,19 @@ public class AssistActivity extends Activity implements IWeiboHandler.Response {
         // 创建媒体消息
         MusicObject musicObject = new MusicObject();
         musicObject.identify = Utility.generateGUID();
-        musicObject.title = mShareMusicView.getTitle();
-        musicObject.description = mShareMusicView.getShareDesc();
+        musicObject.title = getBundleString("title");
+        musicObject.description = getBundleString("description");
 
-        Bitmap  bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.ic_logo);
+//        Bitmap  bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.ic_logo);
+        Bitmap bitmap = BitmapFactory.decodeFile(getBundleString("image_path"));
 
         // 设置 Bitmap 类型的图片到视频对象里,设置缩略图。 注意：最终压缩过的缩略图大小不得超过 32kb。
         musicObject.setThumbImage(bitmap);
-        musicObject.actionUrl = mShareMusicView.getShareUrl();
-        musicObject.dataUrl = "www.weibo.com";
-        musicObject.dataHdUrl = "www.weibo.com";
-        musicObject.duration = 10;
-        musicObject.defaultText = "Music 默认文案";
+        musicObject.actionUrl = getBundleString("actionUrl");
+        musicObject.dataUrl = getBundleString("dataUrl");
+        musicObject.dataHdUrl = getBundleString("dataHdUrl");
+        musicObject.duration = mBundle.getInt("duration", DEFAULT_DURATION);
+        musicObject.defaultText = getBundleString("defaultText");
         return musicObject;
     }
 
@@ -544,16 +548,17 @@ public class AssistActivity extends Activity implements IWeiboHandler.Response {
         // 创建媒体消息
         VideoObject videoObject = new VideoObject();
         videoObject.identify = Utility.generateGUID();
-        videoObject.title = mShareVideoView.getTitle();
-        videoObject.description = mShareVideoView.getShareDesc();
-        Bitmap  bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.ic_share_video_thumb);
+        videoObject.title = getBundleString("title");
+        videoObject.description = getBundleString("description");
+//        Bitmap  bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.ic_share_video_thumb);
+        Bitmap bitmap = BitmapFactory.decodeFile(getBundleString("image_path"));
         // 设置 Bitmap 类型的图片到视频对象里  设置缩略图。 注意：最终压缩过的缩略图大小不得超过 32kb。
 
         ByteArrayOutputStream os = null;
         try {
             os = new ByteArrayOutputStream();
             bitmap.compress(Bitmap.CompressFormat.JPEG, 85, os);
-            System.out.println("kkkkkkk    size  "+ os.toByteArray().length );
+            System.out.println("size: "+ os.toByteArray().length );
         } catch (Exception e) {
             e.printStackTrace();
             LogUtil.e("Weibo.BaseMediaObject", "put thumb failed");
@@ -568,11 +573,11 @@ public class AssistActivity extends Activity implements IWeiboHandler.Response {
         }
 
         videoObject.setThumbImage(bitmap);
-        videoObject.actionUrl = mShareVideoView.getShareUrl();
-        videoObject.dataUrl = "www.weibo.com";
-        videoObject.dataHdUrl = "www.weibo.com";
-        videoObject.duration = 10;
-        videoObject.defaultText = "Vedio 默认文案";
+        videoObject.actionUrl = getBundleString("actionUrl");
+        videoObject.dataUrl = getBundleString("dataUrl");
+        videoObject.dataHdUrl = getBundleString("dataHdUrl");
+        videoObject.duration = mBundle.getInt("duration", DEFAULT_DURATION);
+        videoObject.defaultText = getBundleString("defaultText");
         return videoObject;
     }
 
@@ -585,16 +590,17 @@ public class AssistActivity extends Activity implements IWeiboHandler.Response {
         // 创建媒体消息
         VoiceObject voiceObject = new VoiceObject();
         voiceObject.identify = Utility.generateGUID();
-        voiceObject.title = mShareVoiceView.getTitle();
-        voiceObject.description = mShareVoiceView.getShareDesc();
-        Bitmap  bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.ic_logo);
+        voiceObject.title = getBundleString("title");
+        voiceObject.description = getBundleString("description");
+//        Bitmap  bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.ic_logo);
         // 设置 Bitmap 类型的图片到视频对象里      设置缩略图。 注意：最终压缩过的缩略图大小不得超过 32kb。
+        Bitmap bitmap = BitmapFactory.decodeFile(getBundleString("image_path"));
         voiceObject.setThumbImage(bitmap);
-        voiceObject.actionUrl = mShareVoiceView.getShareUrl();
-        voiceObject.dataUrl = "www.weibo.com";
-        voiceObject.dataHdUrl = "www.weibo.com";
-        voiceObject.duration = 10;
-        voiceObject.defaultText = "Voice 默认文案";
+        voiceObject.actionUrl = getBundleString("actionUrl");
+        voiceObject.dataUrl = getBundleString("dataUrl");
+        voiceObject.dataHdUrl = getBundleString("dataHdUrl");
+        voiceObject.duration = mBundle.getInt("duration", DEFAULT_DURATION);
+        voiceObject.defaultText = getBundleString("defaultText");
         return voiceObject;
     }
 }

@@ -177,6 +177,8 @@ public class AssistActivity extends Activity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         Tencent.onActivityResultData(requestCode, resultCode, data, mListener);
+        mIntent.putExtra(Config.KEY_OF_QQ_BCR, "have send!");
+        onSendBroadCast();
     }
 
     private void onSendBroadCast(){

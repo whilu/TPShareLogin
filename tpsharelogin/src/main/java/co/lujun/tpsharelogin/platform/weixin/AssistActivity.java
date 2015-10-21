@@ -175,4 +175,13 @@ public class AssistActivity extends Activity implements IWXAPIEventHandler {
                         }
                 );
     }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (null != mListener){
+            mListener.onComplete("have send");
+            finish();
+        }
+    }
 }
