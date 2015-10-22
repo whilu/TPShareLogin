@@ -56,6 +56,13 @@ public class WBShareContent {
         return this;
     }
 
+    public WBShareContent setImage_url(String image_url) {
+        this.image_url = image_url;
+        this.hasImage = true;
+        mBundle.putString("image_url", image_url);
+        return this;
+    }
+
     public WBShareContent setUrl(String url) {
         this.url = url;
         mBundle.putString("url", url);
@@ -105,6 +112,8 @@ public class WBShareContent {
     private String list_id;// 微博的保护投递指定分组ID，只有当visible参数为3时生效且必选
     
     private String image_path;/// 本地图片path，imgObg, webpageObj、music、video
+
+    private String image_url;/// 远程图片的URL
 
     private String url;// 图片的URL地址，必须以http开头
 

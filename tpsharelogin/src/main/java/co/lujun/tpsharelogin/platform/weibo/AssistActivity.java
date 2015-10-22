@@ -4,10 +4,12 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
+import android.os.Environment;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.View;
+import android.widget.LinearLayout;
 
 import com.sina.weibo.sdk.api.ImageObject;
 import com.sina.weibo.sdk.api.MusicObject;
@@ -37,12 +39,15 @@ import com.sina.weibo.sdk.utils.Utility;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
+import co.lujun.tpsharelogin.R;
 import co.lujun.tpsharelogin.bean.Config;
 import co.lujun.tpsharelogin.bean.WBShareContent;
 import co.lujun.tpsharelogin.listener.StateListener;
 import co.lujun.tpsharelogin.platform.weibo.listener.AsyncRequestListener;
 import co.lujun.tpsharelogin.platform.weibo.listener.AuthListener;
 import co.lujun.tpsharelogin.platform.weibo.openapi.UsersAPI;
+import co.lujun.tpsharelogin.util.ImageUtils;
+import co.lujun.tpsharelogin.utils.WXUtil;
 
 /**
  * Created by lujun on 2015/9/7.
@@ -64,17 +69,28 @@ public class AssistActivity extends Activity implements IWeiboHandler.Response {
 
     private Intent mIntent;
     private Bundle mBundle;
+    private LinearLayout loadingLayout;
 
     private int apiType;
+    private boolean hasText = false;
+    private boolean hasImage = false;
+    private boolean hasWebpage = false;
+    private boolean hasMusic = false;
+    private boolean hasVideo = false;
+    private boolean hasVoice = false;
 
     private static final int DEFAULT_DURATION = 10;
     public static final String KEY_SHARE_TYPE = "key_share_type";
+    private static final String IMG_PATH = "/TPShareLogin/";
+    private static final String IMG_NAME = "tmpshareimg.png";
 
     private int mShareType = Config.SHARE_CLIENT;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.view_loading);
+        loadingLayout = (LinearLayout) findViewById(R.id.ll_progress);
 
         //
         String redirectUrl = "";
@@ -93,26 +109,18 @@ public class AssistActivity extends Activity implements IWeiboHandler.Response {
             wbShareAPI.handleWeiboResponse(getIntent(), this);
         }
 
+        mBundle = getIntent().getBundleExtra(Config.KEY_OF_BUNDLE);
+        if (mBundle == null){
+            mIntent.putExtra(Config.KEY_OF_WB_BCR, "bundle null!");
+            onSendBroadCast();
+        }
+
         if (type == Config.SHARE_TYPE
                 && mBundle.getInt("share_method", 0) == WBShareContent.COMMON_SHARE){
-            mBundle = getIntent().getBundleExtra(Config.KEY_OF_BUNDLE);
-            if (mBundle == null){
-                mIntent.putExtra(Config.KEY_OF_WB_BCR, "bundle null!");
-                onSendBroadCast();
-            }
             int content_type = mBundle.getInt("content_type", -1);
             mShareType = mBundle.getInt("share_type", Config.SHARE_CLIENT);
-            boolean hasText = false;
-            boolean hasImage = false;
-            boolean hasWebpage = false;
-            boolean hasMusic = false;
-            boolean hasVideo = false;
-            boolean hasVoice = false;
             if (!getBundleString("status").equals("")){
                 hasText = true;
-            }
-            if (!getBundleString("image_path").equals("")){
-                hasImage = true;
             }
             if (content_type == WBShareContent.WEBPAGE){
                 hasWebpage = true;
@@ -120,8 +128,36 @@ public class AssistActivity extends Activity implements IWeiboHandler.Response {
                 hasMusic = true;
             }else if (content_type == WBShareContent.VIDEO){
                 hasVideo = true;
-            }else if (content_type == WBShareContent.VOICE){
+            } else if (content_type == WBShareContent.VOICE){
                 hasVoice = true;
+            }
+            if (!getBundleString("image_path").equals("") || !getBundleString("image_url").equals("")){
+                hasImage = true;
+                if (!getBundleString("image_url").equals("") && getBundleString("image_path").equals("")){
+                    // remote image
+                    loadingLayout.setVisibility(View.VISIBLE);
+                    new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            if (!ImageUtils.checkSDCardAvailable()){
+                                return;
+                            }
+                            ImageUtils.savePhotoToSDCard(
+                                    WXUtil.getBitmapFromUrl(getBundleString("image_url")),
+                                    Environment.getExternalStorageDirectory() + IMG_PATH, IMG_NAME);
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    mBundle.putString("image_path",
+                                            Environment.getExternalStorageDirectory() + IMG_PATH + IMG_NAME);
+                                    loadingLayout.setVisibility(View.GONE);
+                                    sendMessage(hasText, hasImage, hasWebpage, hasMusic, hasVideo, hasVoice);
+                                }
+                            });
+                        }
+                    }).start();
+                    return;
+                }
             }
             sendMessage(hasText, hasImage, hasWebpage, hasMusic, hasVideo, hasVoice);
             return;
@@ -135,9 +171,7 @@ public class AssistActivity extends Activity implements IWeiboHandler.Response {
             public void onComplete(Bundle bundle) {
                 Oauth2AccessToken accessToken = Oauth2AccessToken.parseAccessToken(bundle);
                 AccessTokenKeeper.writeAccessToken(AssistActivity.this, accessToken);
-                if (type == Config.LOGIN_TYPE){
-                    getUserInfo(accessToken);
-                }else if(type == Config.SHARE_TYPE
+                if(type == Config.LOGIN_TYPE
                         && mBundle.getInt("share_method", 0) == WBShareContent.API_SHARE) {
                     mBundle = getIntent().getBundleExtra(Config.KEY_OF_BUNDLE);
                     if (mBundle == null){
@@ -146,6 +180,8 @@ public class AssistActivity extends Activity implements IWeiboHandler.Response {
                     }
                     apiType = mBundle.getInt("wbShareApiType", WBShareContent.UPLOAD);
                     share(accessToken);
+                }else if (type == Config.LOGIN_TYPE){
+                    getUserInfo(accessToken);
                 }
             }
 
@@ -352,7 +388,6 @@ public class AssistActivity extends Activity implements IWeiboHandler.Response {
      * 第三方应用发送请求消息到微博，唤起微博分享界面。
      * 注意：当 {@link IWeiboShareAPI#getWeiboAppSupportAPI()} >= 10351 时，支持同时分享多条消息，
      * 同时可以分享文本、图片以及其它媒体资源（网页、音乐、视频、声音中的一种）。
-     *
      * @param hasText    分享的内容是否有文本
      * @param hasImage   分享的内容是否有图片
      * @param hasWebpage 分享的内容是否有网页
@@ -426,7 +461,6 @@ public class AssistActivity extends Activity implements IWeiboHandler.Response {
      * 第三方应用发送请求消息到微博，唤起微博分享界面。
      * 当{@link IWeiboShareAPI#getWeiboAppSupportAPI()} < 10351 时，只支持分享单条消息，即
      * 文本、图片、网页、音乐、视频中的一种，不支持Voice消息。
-     *
      * @param hasText    分享的内容是否有文本
      * @param hasImage   分享的内容是否有图片
      * @param hasWebpage 分享的内容是否有网页
@@ -470,7 +504,6 @@ public class AssistActivity extends Activity implements IWeiboHandler.Response {
 
     /**
      * 创建文本消息对象。
-     *
      * @return 文本消息对象。
      */
     private TextObject getTextObj() {
@@ -481,14 +514,12 @@ public class AssistActivity extends Activity implements IWeiboHandler.Response {
 
     /**
      * 创建图片消息对象。
-     *
      * @return 图片消息对象。
      */
     private ImageObject getImageObj() {
         ImageObject imageObject = new ImageObject();
-//        BitmapDrawable bitmapDrawable = (BitmapDrawable) mImageView.getDrawable();
-        // 设置缩略图。 注意：最终压缩过的缩略图大小不得超过 32kb。
-//        Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.ic_logo);
+        // 设置缩略图。
+        // 注意：最终压缩过的缩略图大小不得超过 32kb。
         Bitmap bitmap = BitmapFactory.decodeFile(getBundleString("image_path"));
         imageObject.setImageObject(bitmap);
         return imageObject;
@@ -496,7 +527,6 @@ public class AssistActivity extends Activity implements IWeiboHandler.Response {
 
     /**
      * 创建多媒体（网页）消息对象。
-     *
      * @return 多媒体（网页）消息对象。
      */
     private WebpageObject getWebpageObj() {
@@ -505,8 +535,8 @@ public class AssistActivity extends Activity implements IWeiboHandler.Response {
         mediaObject.title = getBundleString("title");
         mediaObject.description = getBundleString("description");
 
-//        Bitmap  bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.ic_logo);
-        // 设置 Bitmap 类型的图片到视频对象里,设置缩略图。 注意：最终压缩过的缩略图大小不得超过 32kb。
+        // 设置 Bitmap 类型的图片到视频对象里,设置缩略图。
+        // 注意：最终压缩过的缩略图大小不得超过 32kb。
         Bitmap bitmap = BitmapFactory.decodeFile(getBundleString("image_path"));
         mediaObject.setThumbImage(bitmap);
         mediaObject.actionUrl = getBundleString("actionUrl");
@@ -516,7 +546,6 @@ public class AssistActivity extends Activity implements IWeiboHandler.Response {
 
     /**
      * 创建多媒体（音乐）消息对象。
-     *
      * @return 多媒体（音乐）消息对象。
      */
     private MusicObject getMusicObj() {
@@ -525,11 +554,10 @@ public class AssistActivity extends Activity implements IWeiboHandler.Response {
         musicObject.identify = Utility.generateGUID();
         musicObject.title = getBundleString("title");
         musicObject.description = getBundleString("description");
-
-//        Bitmap  bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.ic_logo);
         Bitmap bitmap = BitmapFactory.decodeFile(getBundleString("image_path"));
 
-        // 设置 Bitmap 类型的图片到视频对象里,设置缩略图。 注意：最终压缩过的缩略图大小不得超过 32kb。
+        // 设置 Bitmap 类型的图片到视频对象里,设置缩略图。
+        // 注意：最终压缩过的缩略图大小不得超过 32kb。
         musicObject.setThumbImage(bitmap);
         musicObject.actionUrl = getBundleString("actionUrl");
         musicObject.dataUrl = getBundleString("dataUrl");
@@ -541,7 +569,6 @@ public class AssistActivity extends Activity implements IWeiboHandler.Response {
 
     /**
      * 创建多媒体（视频）消息对象。
-     *
      * @return 多媒体（视频）消息对象。
      */
     private VideoObject getVideoObj() {
@@ -550,9 +577,9 @@ public class AssistActivity extends Activity implements IWeiboHandler.Response {
         videoObject.identify = Utility.generateGUID();
         videoObject.title = getBundleString("title");
         videoObject.description = getBundleString("description");
-//        Bitmap  bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.ic_share_video_thumb);
         Bitmap bitmap = BitmapFactory.decodeFile(getBundleString("image_path"));
-        // 设置 Bitmap 类型的图片到视频对象里  设置缩略图。 注意：最终压缩过的缩略图大小不得超过 32kb。
+        // 设置 Bitmap 类型的图片到视频对象里，设置缩略图。
+        // 注意：最终压缩过的缩略图大小不得超过 32kb。
 
         ByteArrayOutputStream os = null;
         try {
@@ -583,7 +610,6 @@ public class AssistActivity extends Activity implements IWeiboHandler.Response {
 
     /**
      * 创建多媒体（音频）消息对象。
-     *
      * @return 多媒体（音乐）消息对象。
      */
     private VoiceObject getVoiceObj() {
@@ -592,8 +618,8 @@ public class AssistActivity extends Activity implements IWeiboHandler.Response {
         voiceObject.identify = Utility.generateGUID();
         voiceObject.title = getBundleString("title");
         voiceObject.description = getBundleString("description");
-//        Bitmap  bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.ic_logo);
-        // 设置 Bitmap 类型的图片到视频对象里      设置缩略图。 注意：最终压缩过的缩略图大小不得超过 32kb。
+        // 设置 Bitmap 类型的图片到视频对象里，设置缩略图。
+        // 注意：最终压缩过的缩略图大小不得超过 32kb。
         Bitmap bitmap = BitmapFactory.decodeFile(getBundleString("image_path"));
         voiceObject.setThumbImage(bitmap);
         voiceObject.actionUrl = getBundleString("actionUrl");

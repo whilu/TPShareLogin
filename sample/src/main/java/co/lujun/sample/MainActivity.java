@@ -61,7 +61,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         //参数分别为微博回调地址、微博APP KEY、微博APP SECRET、QQ APPID、QQ APPSECRET、微信APPID、微信APPSECRET
         TPManager.getInstance().initAppConfig(
                 "http://lujun.co", "1801471434", "6c4bf7a0f7f757b6ae3288ab2a53046e",
-                "1104730321", "9QoiADlAfE5TlMZQ",
+                "1104848005", "nSZUcdz2PDaPjZ46",
                 "", "");
         qqManager = new QQManager(this);
         wxManager = new WXManager(this);
@@ -219,9 +219,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         .setPic(Environment.getExternalStorageDirectory() + "/1234321.png")
                         .setWbShareApiType(WBShareContent.UPLOAD);*/
                 //UPLOAD_URL_TEXT，需要申请微博权限
-                contentWB.setStatus("This is TPShareLogin test, 4 weibo!@whilu ")
-                        .setUrl("http://lujun-wordpress.stor.sinaapp.com/uploads/2014/09/lujun-375x500.jpg")
-                        .setWbShareApiType(WBShareContent.UPLOAD_URL_TEXT);
+//                contentWB.setStatus("This is TPShareLogin test, 4 weibo!@whilu ")
+//                        .setUrl("http://lujun-wordpress.stor.sinaapp.com/uploads/2014/09/lujun-375x500.jpg")
+//                        .setWbShareApiType(WBShareContent.UPLOAD_URL_TEXT);
+                contentWB.setShare_method(WBShareContent.COMMON_SHARE)
+                        .setContent_type(WBShareContent.WEBPAGE)
+                        .setStatus("This is TPShareLogin test, 4 weibo!@whilu ")
+                        .setImage_url("http://lujun-wordpress.stor.sinaapp.com/uploads/2014/09/lujun-375x500.jpg")
+                        .setTitle("title")
+                        .setDescription("description")
+                        .setActionUrl("http://lujun.co")
+                        .setDataUrl("http://lujun.co")
+                        .setDadtaHdUrl("http://lujun.co")
+                        .setDefaultText("default action");
                 wbManager.share(contentWB);
                 break;
 

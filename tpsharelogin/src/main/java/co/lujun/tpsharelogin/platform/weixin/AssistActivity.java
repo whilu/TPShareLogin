@@ -32,6 +32,7 @@ public class AssistActivity extends Activity implements IWXAPIEventHandler {
     private StateListener<String> mListener;
 
     private static final String WX_API_HOST = "https://api.weixin.qq.com";
+    private static final String TAG = "AssistActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -179,9 +180,5 @@ public class AssistActivity extends Activity implements IWXAPIEventHandler {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (null != mListener){
-            mListener.onComplete("have send");
-            finish();
-        }
     }
 }

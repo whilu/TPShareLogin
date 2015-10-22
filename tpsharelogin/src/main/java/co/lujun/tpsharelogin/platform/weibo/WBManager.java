@@ -4,6 +4,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.os.Bundle;
 
 import co.lujun.tpsharelogin.TPManager;
 import co.lujun.tpsharelogin.bean.Config;
@@ -34,6 +35,7 @@ public class WBManager {
      */
     public void onLoginWithWB(){
         mIntent.putExtra(Config.KEY_OF_TYPE, Config.LOGIN_TYPE);
+        mIntent.putExtra(Config.KEY_OF_BUNDLE, new Bundle());
         mContext.registerReceiver(mReceiveBroadCast, new IntentFilter(Config.KEY_OF_WB_BCR_ACTION));
         mContext.startActivity(mIntent);
     }
@@ -52,6 +54,9 @@ public class WBManager {
      */
     public void share(WBShareContent content){
         mIntent.putExtra(Config.KEY_OF_TYPE, Config.SHARE_TYPE);
+        if (content.getBundle().getInt("share_method") ==  WBShareContent.API_SHARE){
+            mIntent.putExtra(Config.KEY_OF_TYPE, Config.LOGIN_TYPE);
+        }
         mIntent.putExtra(Config.KEY_OF_BUNDLE, content.getBundle());
         mContext.registerReceiver(mReceiveBroadCast, new IntentFilter(Config.KEY_OF_WB_BCR_ACTION));
         mContext.startActivity(mIntent);

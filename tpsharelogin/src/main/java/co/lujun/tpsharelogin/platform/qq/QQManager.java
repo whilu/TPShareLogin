@@ -24,6 +24,8 @@ public class QQManager {
     private StateListener<String> mListener;
     private ReceiveBroadCast mReceiveBroadCast;
 
+    private static final String TAG = "QQManager";
+
     public QQManager(Context context){
         mContext = context;
         mIntent = new Intent(mContext, AssistActivity.class);

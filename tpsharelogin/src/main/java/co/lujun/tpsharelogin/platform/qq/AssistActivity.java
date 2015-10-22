@@ -84,14 +84,12 @@ public class AssistActivity extends Activity {
 
             @Override
             public void onError(String s) {
-                Log.e(TAG, s);
                 mIntent.putExtra(Config.KEY_OF_QQ_BCR, s);
                 onSendBroadCast();
             }
 
             @Override
             public void onCancel() {
-                Log.i(TAG, "onCancel()");
                 mIntent.putExtra(Config.KEY_OF_QQ_BCR, "onCancel()");
                 onSendBroadCast();
             }
