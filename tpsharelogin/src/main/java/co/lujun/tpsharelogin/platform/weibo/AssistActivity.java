@@ -83,6 +83,7 @@ public class AssistActivity extends Activity implements IWeiboHandler.Response {
     public static final String KEY_SHARE_TYPE = "key_share_type";
     private static final String IMG_PATH = "/TPShareLogin/";
     private static final String IMG_NAME = "tmpshareimg.png";
+    private static final int THUMB_SIZE = 116;
 
     private int mShareType = Config.SHARE_CLIENT;
 
@@ -143,7 +144,7 @@ public class AssistActivity extends Activity implements IWeiboHandler.Response {
                                 return;
                             }
                             ImageUtils.savePhotoToSDCard(
-                                    WXUtil.getBitmapFromUrl(getBundleString("image_url")),
+                                    WXUtil.scaleCenterCrop(WXUtil.getBitmapFromUrl(getBundleString("image_url")), THUMB_SIZE, THUMB_SIZE),
                                     Environment.getExternalStorageDirectory() + IMG_PATH, IMG_NAME);
                             runOnUiThread(new Runnable() {
                                 @Override
