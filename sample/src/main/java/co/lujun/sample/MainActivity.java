@@ -12,6 +12,7 @@ import android.widget.Button;
 import com.tencent.connect.share.QQShare;
 
 import co.lujun.tpsharelogin.TPManager;
+import co.lujun.tpsharelogin.bean.Config;
 import co.lujun.tpsharelogin.bean.QQShareContent;
 import co.lujun.tpsharelogin.bean.WBShareContent;
 import co.lujun.tpsharelogin.bean.WXShareContent;
@@ -60,8 +61,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         //参数分别为微博回调地址、微博APP KEY、微博APP SECRET、QQ APPID、QQ APPSECRET、微信APPID、微信APPSECRET
         TPManager.getInstance().initAppConfig(
-                "http://lujun.co", "1801471434", "6c4bf7a0f7f757b6ae3288ab2a53046e",
-                "1104848005", "nSZUcdz2PDaPjZ46",
+                "", "", "",
+                "", "",
                 "", "");
         qqManager = new QQManager(this);
         wxManager = new WXManager(this);
@@ -144,11 +145,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 QQShareContent contentQZone = new QQShareContent();
                 contentQZone
                         .setShareType(QQShare.SHARE_TO_QQ_TYPE_DEFAULT)
+                        .setShareExt(QQShare.SHARE_TO_QQ_FLAG_QZONE_AUTO_OPEN)
                         .setTitle("TPShareLogin Test")
                         .setTarget_url("http://lujun.co")
                         .setImage_url("http://lujun-wordpress.stor.sinaapp.com/uploads/2014/09/lujun-375x500.jpg")
-                        .setSummary("This is TPShareLogin test, 4 qq!")
-                        .setShareExt(QQShare.SHARE_TO_QQ_FLAG_QZONE_AUTO_OPEN);
+                        .setSummary("This is TPShareLogin test, 4 qq!");
                 qqManager.share(contentQZone);
                 break;
             case R.id.btn_qq_share_local_image:// QQ分享本地图片
@@ -204,8 +205,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
             case R.id.btn_wx_share_timeline:// 微信朋友圈分享
                 WXShareContent contentWX2 = new WXShareContent();
-                contentWX2.setText("This is TPShareLogin test, 4 weixin timeline!")
-                        .setScene(WXShareContent.WXTimeline)
+                contentWX2.setScene(WXShareContent.WXTimeline)
+                        .setText("This is TPShareLogin test, 4 weixin timeline!")
                         .setType(WXShareContent.share_type.Text);
                 wxManager.share(contentWX2);
                 break;
@@ -215,15 +216,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.btn_wb_share_url:// 微博分享远程图片和文字消息
                 WBShareContent contentWB = new WBShareContent();
                 //UPLOAD，普通发布微博API接口
-                /*contentWB.setStatus("This is TPShareLogin test, 4 weibo!@whilu ")
+                /*contentWB.setShare_method(WBShareContent.API_SHARE)
+                        .setStatus("This is TPShareLogin test, 4 weibo!@whilu ")
                         .setPic(Environment.getExternalStorageDirectory() + "/1234321.png")
                         .setWbShareApiType(WBShareContent.UPLOAD);*/
                 //UPLOAD_URL_TEXT，需要申请微博权限
-//                contentWB.setStatus("This is TPShareLogin test, 4 weibo!@whilu ")
-//                        .setUrl("http://lujun-wordpress.stor.sinaapp.com/uploads/2014/09/lujun-375x500.jpg")
-//                        .setWbShareApiType(WBShareContent.UPLOAD_URL_TEXT);
+                /*contentWB.setShare_method(WBShareContent.API_SHARE)
+                        .setStatus("This is TPShareLogin test, 4 weibo!@whilu ")
+                        .setUrl("http://lujun-wordpress.stor.sinaapp.com/uploads/2014/09/lujun-375x500.jpg")
+                        .setWbShareApiType(WBShareContent.UPLOAD_URL_TEXT);*/
                 contentWB.setShare_method(WBShareContent.COMMON_SHARE)
                         .setContent_type(WBShareContent.WEBPAGE)
+                        .setShare_type(Config.SHARE_CLIENT)
                         .setStatus("This is TPShareLogin test, 4 weibo!@whilu ")
                         .setImage_url("http://lujun-wordpress.stor.sinaapp.com/uploads/2014/09/lujun-375x500.jpg")
                         .setTitle("title")
@@ -237,9 +241,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             case R.id.btn_wb_share:// 微博分享本地图片和文字消息
                 WBShareContent contentWB2 = new WBShareContent();
-//                contentWB2.setStatus("This is TPShareLogin test, 4 weibo!@whilu ")
-//                        .setImage_path(Environment.getExternalStorageDirectory() + "/1234321.png")
-//                        .setWbShareApiType(WBShareContent.UPLOAD);
+                /*contentWB2.setShare_method(WBShareContent.API_SHARE)
+                        .setStatus("This is TPShareLogin test, 4 weibo!@whilu ")
+                        .setImage_path(Environment.getExternalStorageDirectory() + "/1234321.png")
+                        .setWbShareApiType(WBShareContent.UPLOAD);*/
                 //webpage
                 contentWB2.setShare_method(WBShareContent.COMMON_SHARE)
                         .setContent_type(WBShareContent.WEBPAGE)
@@ -252,17 +257,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         .setDadtaHdUrl("http://lujun.co")
                         .setDefaultText("default action");
                 // music
-//                contentWB2.setShare_method(WBShareContent.COMMON_SHARE)
-//                        .setContent_type(WBShareContent.MUSIC)
-//                        .setStatus("This is TPShareLogin test, 4 weibo!@whilu ")
-//                        .setImage_path(Environment.getExternalStorageDirectory() + "/1234321.png")
-//                        .setTitle("title")
-//                        .setDescription("description")
-//                        .setActionUrl("http://lujun.co")
-//                        .setDuration(10)
-//                        .setDefaultText("default action");
-                // video
-                // voice
+                /*contentWB2.setShare_method(WBShareContent.COMMON_SHARE)
+                        .setContent_type(WBShareContent.MUSIC)
+                        .setStatus("This is TPShareLogin test, 4 weibo!@whilu ")
+                        .setImage_path(Environment.getExternalStorageDirectory() + "/1234321.png")
+                        .setTitle("title")
+                        .setDescription("description")
+                        .setActionUrl("http://lujun.co")
+                        .setDuration(10)
+                        .setDefaultText("default action");*/
+                // video voice...
                 wbManager.share(contentWB2);
                 break;
             default:break;

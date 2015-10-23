@@ -63,12 +63,12 @@ public class WXEntryActivity extends AssistActivity {
 ```java
 //参数分别为微博回调地址、微博APP KEY、微博APP SECRET、QQ APPID、QQ APPSECRET、微信APPID、微信APPSECRET
 TPManager.getInstance().initAppConfig(
-        "http://lujun.co", "", "",
+        "", "", "",
         "", "",
         "", "");
 ```
 #####b. 登录及分享
-分别提供了`QQManager`、`WXManager`和`WBManager`用于QQ、微信及微博的登录与分享的实现
+分别提供了`QQManager`、`WXManager`和`WBManager`用于QQ、微信及微博的登录与分享的实现。设置StateListener<T>（必须）用于登录及分享的回调
 ######QQ登录及分享
 ```java
 QQManager qqManager = new QQManager(this);
@@ -97,12 +97,20 @@ qqManager.onLoginWithQQ();
 ```java
 //QQ分享
 QQShareContent contentQQ = new QQShareContent();
-contentQQ.setTitle("TPShareLogin Test")
+contentQQ.setShareType(QQShare.SHARE_TO_QQ_TYPE_DEFAULT)
+        .setShareExt(QQShare.SHARE_TO_QQ_FLAG_QZONE_AUTO_OPEN);
+        .setTitle("TPShareLogin Test")
         .setTarget_url("http://lujun.co")
         .setImage_url("http://lujun-wordpress.stor.sinaapp.com/uploads/2014/09/lujun-375x500.jpg")
         .setSummary("This is TPShareLogin test, 4 qq!");
 qqManager.share(contentQQ);
 ```
+1. setShareType(int param)方法:
+* `QQShare.SHARE_TO_QQ_TYPE_DEFAULT` (图文消息，默认)
+* `QQShare.SHARE_TO_QQ_TYPE_IMAGE` (本地图片)
+2. setShareExt(int param)方法，默认对话列表且显示QZone按钮:
+* `QQShare.SHARE_TO_QQ_FLAG_QZONE_AUTO_OPEN` (分享到QQ客户端时默认QZone)
+* `QQShare.SHARE_TO_QQ_FLAG_QZONE_ITEM_HIDE` (分享到QQ客户端对话列表不显示QZone按钮)
 ######微信登录及分享
 ```java
 WXManager wxManager = new WXManager(this);
@@ -111,8 +119,17 @@ wxManager.setListener(StateListener<String> wxStateListener);
 wxManager.onLoginWithWX();
 //微信分享
 WXShareContent contentWX = new WXShareContent();
+contentWX.setScene(WXShareContent.WXSession)
+        .setWeb_url("http://lujun.co")
+        .setTitle("WebTitle")
+        .setDescription("Web description, description, description")
+        .setImage_url("http://lujun-wordpress.stor.sinaapp.com/uploads/2014/09/lujun-375x500.jpg")
+        .setType(WXShareContent.share_type.WebPage);
 wxManager.share(contentWX);
 ```
+1. setScene(int param)方法:
+* `WXShareContent.WXSession` (分享到微信客户端时对话列表，默认)
+* `WXShareContent.WXTimeline` (分享到微信朋友圈)
 ######微博登录及分享
 ```java
 WBManager wbManager = new WBManager(this);
@@ -121,8 +138,25 @@ wbManager.setListener(StateListener<String> wbStateListener);
 wbManager.onLoginWithWB();
 //微博分享
 WBShareContent contentWB = new WBShareContent();
+contentWB.setShare_method(WBShareContent.COMMON_SHARE)
+        .setContent_type(WBShareContent.WEBPAGE)
+        .setShare_type(Config.SHARE_CLIENT)
+        .setStatus("This is TPShareLogin test, 4 weibo!@whilu ")
+        .setImage_url("http://lujun-wordpress.stor.sinaapp.com/uploads/2014/09/lujun-375x500.jpg")
+        .setTitle("title")
+        .setDescription("description")
+        .setActionUrl("http://lujun.co")
+        .setDataUrl("http://lujun.co")
+        .setDadtaHdUrl("http://lujun.co")
+        .setDefaultText("default action");
 wbManager.share(contentWB);
 ```
+1. setShare_method(int param)方法:
+* `WBShareContent.COMMON_SHARE` (调用客户端分享，默认)
+* `WBShareContent.API_SHARE` (API分享，不会调用客户端，分享回调到当前应用进行)
+2. setShare_type(int param)方法:
+* `Config.SHARE_CLIENT` (单条分享，默认)
+* `Config.SHARE_ALL_IN_ONE` (多种类型集合分享)
 授权登录成功返回的数据格式为json字符串，如下：
 ```xml
 {
@@ -130,7 +164,7 @@ wbManager.share(contentWB);
        //这里面是返回的用户数据信息
   },
   "verify_data":{
-       //这里面是返回的认证信息，包括access_token、openid等
+       //这里面是返回的认证信息，包括可能有的access_token、openid等(各个平台根据实际情况而定)
   }
 }
 ```
@@ -138,7 +172,7 @@ wbManager.share(contentWB);
 
 ## 注意事项
 ### 依赖库冲突
-本库使用了[Retrofit](https://github.com/square/retrofit)、[RxAndroid](https://github.com/ReactiveX/RxAndroid)及[RxJava](https://github.com/ReactiveX/RxJava)等库，若你的项目中也使用了这些依赖库并发生了冲突，请在添加本库依赖时如下进行：
+本库使用了[Retrofit v1.9.0](https://github.com/square/retrofit)、[RxAndroid v1.0.1](https://github.com/ReactiveX/RxAndroid)及[RxJava v1.0.14](https://github.com/ReactiveX/RxJava)等库，若你的项目中也使用了这些依赖库并发生了冲突，请在添加本库依赖时进行操作：
 ```xml
 dependencies {
     compile ('co.lujun:tpsharelogin:1.0.0'){

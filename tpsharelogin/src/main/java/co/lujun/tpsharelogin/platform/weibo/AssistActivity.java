@@ -83,7 +83,7 @@ public class AssistActivity extends Activity implements IWeiboHandler.Response {
     public static final String KEY_SHARE_TYPE = "key_share_type";
     private static final String IMG_PATH = "/TPShareLogin/";
     private static final String IMG_NAME = "tmpshareimg.png";
-    private static final int THUMB_SIZE = 116;
+    private static final int THUMB_SIZE = 116;//32k限制
 
     private int mShareType = Config.SHARE_CLIENT;
 
