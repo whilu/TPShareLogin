@@ -105,10 +105,10 @@ contentQQ.setShareType(QQShare.SHARE_TO_QQ_TYPE_DEFAULT)
         .setSummary("This is TPShareLogin test, 4 qq!");
 qqManager.share(contentQQ);
 ```
-1. setShareType(int param)方法:
+setShareType(int param)方法:
 * `QQShare.SHARE_TO_QQ_TYPE_DEFAULT` (图文消息，默认)
 * `QQShare.SHARE_TO_QQ_TYPE_IMAGE` (本地图片)
-2. setShareExt(int param)方法，默认对话列表且显示QZone按钮:
+setShareExt(int param)方法，默认对话列表且显示QZone按钮:
 * `QQShare.SHARE_TO_QQ_FLAG_QZONE_AUTO_OPEN` (分享到QQ客户端时默认QZone)
 * `QQShare.SHARE_TO_QQ_FLAG_QZONE_ITEM_HIDE` (分享到QQ客户端对话列表不显示QZone按钮)
 ######微信登录及分享
@@ -127,7 +127,7 @@ contentWX.setScene(WXShareContent.WXSession)
         .setType(WXShareContent.share_type.WebPage);
 wxManager.share(contentWX);
 ```
-1. setScene(int param)方法:
+setScene(int param)方法:
 * `WXShareContent.WXSession` (分享到微信客户端时对话列表，默认)
 * `WXShareContent.WXTimeline` (分享到微信朋友圈)
 ######微博登录及分享
@@ -151,10 +151,10 @@ contentWB.setShare_method(WBShareContent.COMMON_SHARE)
         .setDefaultText("default action");
 wbManager.share(contentWB);
 ```
-1. setShare_method(int param)方法:
+setShare_method(int param)方法，一般使用客户端进行分享:
 * `WBShareContent.COMMON_SHARE` (调用客户端分享，默认)
 * `WBShareContent.API_SHARE` (API分享，不会调用客户端，分享回调到当前应用进行)
-2. setShare_type(int param)方法:
+setShare_type(int param)方法，一般不需要特别指定:
 * `Config.SHARE_CLIENT` (单条分享，默认)
 * `Config.SHARE_ALL_IN_ONE` (多种类型集合分享)
 授权登录成功返回的数据格式为json字符串，如下：

@@ -133,7 +133,11 @@ public class AssistActivity extends Activity implements IWeiboHandler.Response {
                 hasVoice = true;
             }
             if (!getBundleString("image_path").equals("") || !getBundleString("image_url").equals("")){
-                hasImage = true;
+                if (hasWebpage || hasMusic || hasVideo || hasVoice) {
+                    hasImage = false;
+                }else {
+                    hasImage = true;
+                }
                 if (!getBundleString("image_url").equals("") && getBundleString("image_path").equals("")){
                     // remote image
                     loadingLayout.setVisibility(View.VISIBLE);
@@ -143,9 +147,14 @@ public class AssistActivity extends Activity implements IWeiboHandler.Response {
                             if (!ImageUtils.checkSDCardAvailable()){
                                 return;
                             }
-                            ImageUtils.savePhotoToSDCard(
-                                    WXUtil.scaleCenterCrop(WXUtil.getBitmapFromUrl(getBundleString("image_url")), THUMB_SIZE, THUMB_SIZE),
-                                    Environment.getExternalStorageDirectory() + IMG_PATH, IMG_NAME);
+                            Bitmap bitmap = WXUtil.getBitmapFromUrl(getBundleString("image_url"));
+                            if (!hasWebpage && !hasMusic && !hasVideo && !hasVoice){
+                                ImageUtils.savePhotoToSDCard(bitmap,
+                                        Environment.getExternalStorageDirectory() + IMG_PATH, IMG_NAME);
+                            }else {
+                                ImageUtils.savePhotoToSDCard(WXUtil.scaleCenterCrop(bitmap, THUMB_SIZE, THUMB_SIZE),
+                                        Environment.getExternalStorageDirectory() + IMG_PATH, IMG_NAME);
+                            }
                             runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
