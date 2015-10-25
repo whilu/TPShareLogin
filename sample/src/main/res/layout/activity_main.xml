@@ -80,13 +80,13 @@
             android:id="@+id/btn_wb_share"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="微博分享（本地图片）" />
+            android:text="微博分享网页" />
 
         <Button
             android:id="@+id/btn_wb_share_url"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="微博分享（远程图片）" />
+            android:text="微博分享远程图片" />
 
     </LinearLayout>
 

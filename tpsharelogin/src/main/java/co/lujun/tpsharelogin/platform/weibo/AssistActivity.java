@@ -90,8 +90,8 @@ public class AssistActivity extends Activity implements IWeiboHandler.Response {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.view_loading);
-        loadingLayout = (LinearLayout) findViewById(R.id.ll_progress);
+        setContentView(R.layout.tpsl_view_loading);
+        loadingLayout = (LinearLayout) findViewById(R.id.tpsl_ll_progress);
 
         //
         String redirectUrl = "";

@@ -61,7 +61,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         //参数分别为微博回调地址、微博APP KEY、微博APP SECRET、QQ APPID、QQ APPSECRET、微信APPID、微信APPSECRET
         TPManager.getInstance().initAppConfig(
-                "http://lujun.co", "1801471434", "6c4bf7a0f7f757b6ae3288ab2a53046e",
+                "", "", "",
                 "", "",
                 "", "");
         qqManager = new QQManager(this);
@@ -224,7 +224,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         .setUrl("http://lujun-wordpress.stor.sinaapp.com/uploads/2014/09/lujun-375x500.jpg");*/
                 /////////////WBShareContent.COMMON_SHARE(推荐使用该方式分享，将会调起客户端进行分享操作)
                 //webpage及远程缩略图
-                contentWB.setShare_method(WBShareContent.COMMON_SHARE)
+                /*contentWB.setShare_method(WBShareContent.COMMON_SHARE)
                         .setContent_type(WBShareContent.WEBPAGE)
                         //setShare_type(int type)指定分享的策略，一般不需要指定
                         // 1、Config.SHARE_CLIENT(根据微博SDK版本而定分享策略，默认)
@@ -240,12 +240,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         .setActionUrl("http://lujun.co")
                         .setDataUrl("http://lujun.co")
                         .setDadtaHdUrl("http://lujun.co")
-                        .setDefaultText("default action");
+                        .setDefaultText("default action");*/
                 //远程图片及文字，不通过setContent_type()方法指定类型，程序会自动识别
-                /*contentWB.setShare_method(WBShareContent.COMMON_SHARE)
+                contentWB.setShare_method(WBShareContent.COMMON_SHARE)
                         .setShare_type(Config.SHARE_CLIENT)
                         .setStatus("This is TPShareLogin test, 4 weibo!@whilu  http://lujun.co")
-                        .setImage_url("http://lujun-wordpress.stor.sinaapp.com/uploads/2014/09/lujun-375x500.jpg");*/
+                        .setImage_url("http://lujun-wordpress.stor.sinaapp.com/uploads/2014/09/lujun-375x500.jpg");
                 //纯文字微博，，不通过setContent_type()方法指定类型，程序会自动识别
                 /*contentWB.setShare_method(WBShareContent.COMMON_SHARE)
                         .setShare_type(Config.SHARE_CLIENT)
