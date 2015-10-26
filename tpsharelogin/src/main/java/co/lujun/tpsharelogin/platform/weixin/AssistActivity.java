@@ -48,7 +48,6 @@ public class AssistActivity extends Activity implements IWXAPIEventHandler {
     @Override
     public void onResp(BaseResp baseResp) {
         if (null == mListener){
-            mListener.onError("response is null!");
             finish();
         }
         switch (baseResp.errCode){
