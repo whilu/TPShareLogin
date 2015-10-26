@@ -47,7 +47,7 @@ public class AssistActivity extends Activity {
                 if (type == Config.LOGIN_TYPE) {
 //                    getUserInfo(o);
                     //
-                    if (o == null){
+                    if (o == null) {
                         Log.e(TAG, "get auth info error!");
                         mIntent.putExtra(Config.KEY_OF_QQ_BCR, "get auth info error!");
                         onSendBroadCast();
@@ -62,12 +62,12 @@ public class AssistActivity extends Activity {
                         openId = jsonObject.getString(Constants.PARAM_OPEN_ID);
                         if (TextUtils.isEmpty(accessToken)
                                 || TextUtils.isEmpty(expires_in)
-                                || TextUtils.isEmpty(openId)){
+                                || TextUtils.isEmpty(openId)) {
                             Log.e(TAG, "get auth info null!");
                             mIntent.putExtra(Config.KEY_OF_QQ_BCR, "get auth info null!");
                             onSendBroadCast();
                         }
-                    }catch (JSONException e){
+                    } catch (JSONException e) {
                         e.printStackTrace();
                     }
                     mIntent.putExtra(Config.KEY_OF_TYPE, Config.LOGIN_TYPE);
@@ -76,7 +76,7 @@ public class AssistActivity extends Activity {
                     mIntent.putExtra(Config.KEY_OF_EXPIRES_IN, expires_in);
                     mIntent.putExtra(Config.KEY_OF_OPEN_ID, openId);
                     mIntent.putExtra(Config.KEY_OF_VERIFY_DATA, o.toString());
-                }else{
+                } else {
                     mIntent.putExtra(Config.KEY_OF_QQ_BCR, "share successful!");
                 }
                 onSendBroadCast();
@@ -112,69 +112,12 @@ public class AssistActivity extends Activity {
         }
     }
 
-    /**
-     * 获取用户信息，因为QQ获取用户信息不是在QQ客户端进行，所以改用回调至调用的程序中进行
-     * @param o
-     * @deprecated
-     */
-    private void getUserInfo(Object o){
-        /*if (o == null){
-            Log.e(TAG, "get auth info error!");
-            mIntent.putExtra(Config.KEY_OF_QQ_BCR, "get auth info error!");
-            onSendBroadCast();
-        }
-        JSONObject jsonObject = (JSONObject) o;
-        try {
-            String accessToken = jsonObject.getString(Constants.PARAM_ACCESS_TOKEN);
-            String expires_in = jsonObject.getString(Constants.PARAM_EXPIRES_IN);
-            String openId = jsonObject.getString(Constants.PARAM_OPEN_ID);
-            if (TextUtils.isEmpty(accessToken)
-                    || TextUtils.isEmpty(expires_in)
-                    || TextUtils.isEmpty(openId)){
-                Log.e(TAG, "get auth info null!");
-                mIntent.putExtra(Config.KEY_OF_QQ_BCR, "get auth info null!");
-                onSendBroadCast();
-            }
-            mTencent.setAccessToken(accessToken, expires_in);
-            mTencent.setOpenId(openId);
-        }catch (JSONException e){
-            e.printStackTrace();
-        }
-
-        //new method
-//        mTencent.requestAsync(Constants.GRAPH_BASE, null, Constants.HTTP_GET, new BaseApiListener(), null);
-        //old method
-        UserInfo userInfo = new UserInfo(this, mTencent.getQQToken());
-        mUserInfoListener = new BaseUiListener();
-        mUserInfoListener.setListener(new StateListener<Object>() {
-            @Override
-            public void onComplete(Object o) {
-//                Log.i(TAG, o.toString());
-                mIntent.putExtra(Config.KEY_OF_QQ_BCR, o.toString());
-                onSendBroadCast();
-            }
-
-            @Override
-            public void onError(String s) {
-                Log.e(TAG, s);
-                mIntent.putExtra(Config.KEY_OF_QQ_BCR, s);
-                onSendBroadCast();
-            }
-
-            @Override
-            public void onCancel() {
-                Log.i(TAG, "onCancel()");
-                mIntent.putExtra(Config.KEY_OF_QQ_BCR, "onCancel()");
-                onSendBroadCast();
-            }
-        });
-        userInfo.getUserInfo(mUserInfoListener);*/
-    }
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        Tencent.onActivityResultData(requestCode, resultCode, data, mListener);
+        if (mTencent != null){
+            mTencent.onActivityResult(requestCode, resultCode, data);
+        }
         mIntent.putExtra(Config.KEY_OF_QQ_BCR, "have send!");
         onSendBroadCast();
     }
