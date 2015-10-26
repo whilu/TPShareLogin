@@ -167,11 +167,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         .setText("This is TPShareLogin test, 4 weixin!");*/
                 //分享Webpage类型，微信分享需要缩略图的其他类型图片都会被压缩至32k以内
                 /*contentWX.setScene(WXShareContent.WXSession)
-                        .setType(WXShareContent.share_type.WebPage);
+                        .setType(WXShareContent.share_type.WebPage)
                         .setWeb_url("http://lujun.co")
                         .setTitle("WebTitle")
                         .setDescription("Web description, description, description")
-                        .setImage_url("http://lujun-wordpress.stor.sinaapp.com/uploads/2014/09/lujun-375x500.jpg")*/
+                        .setImage_url("http://lujun-wordpress.stor.sinaapp.com/uploads/2014/09/lujun-375x500.jpg");*/
                 //分享Image类型
                 /*contentWX.setScene(WXShareContent.WXSession)
                         .setType(WXShareContent.share_type.Image)
