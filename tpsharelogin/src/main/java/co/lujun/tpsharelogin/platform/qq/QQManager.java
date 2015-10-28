@@ -86,10 +86,10 @@ public class QQManager {
             public void onComplete(Object o) {
                 // 返回格式如下
                 /*{
-                  "userData":{},
-                  "verifyData":{}
+                  "user_data":{},
+                  "verify_data":{}
                 }*/
-                mListener.onComplete("{\"userData\":" + o.toString() + "," + "\"verifyData\":" +  verifyData + "}");
+                mListener.onComplete("{\"user_data\":" + o.toString() + "," + "\"verify_data\":" +  verifyData + "}");
             }
 
             @Override
