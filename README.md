@@ -159,6 +159,8 @@ setShare_method(int param)方法，一般使用客户端进行分享:
 setShare_type(int param)方法，一般不需要特别指定:
 * `Config.SHARE_CLIENT` (单条分享，默认)
 * `Config.SHARE_ALL_IN_ONE` (多种类型集合分享)
+
+######授权登录
 授权登录成功返回的数据格式为json字符串，如下：
 ```xml
 {
