@@ -6,7 +6,7 @@
 #### Gradle
 ```xml
 dependencies {
-    compile 'co.lujun:tpsharelogin:1.0.2'
+    compile 'co.lujun:tpsharelogin:1.0.3'
 }
 ```
 
@@ -111,6 +111,7 @@ setShareType(int param)方法:
 setShareExt(int param)方法，默认对话列表且显示QZone按钮:
 * `QQShare.SHARE_TO_QQ_FLAG_QZONE_AUTO_OPEN` (分享到QQ客户端时默认QZone)
 * `QQShare.SHARE_TO_QQ_FLAG_QZONE_ITEM_HIDE` (分享到QQ客户端对话列表不显示QZone按钮)
+
 ######微信登录及分享
 ```java
 WXManager wxManager = new WXManager(this);
@@ -130,6 +131,7 @@ wxManager.share(contentWX);
 setScene(int param)方法:
 * `WXShareContent.WXSession` (分享到微信客户端时对话列表，默认)
 * `WXShareContent.WXTimeline` (分享到微信朋友圈)
+
 ######微博登录及分享
 ```java
 WBManager wbManager = new WBManager(this);
@@ -175,7 +177,7 @@ setShare_type(int param)方法，一般不需要特别指定:
 本库使用了[Retrofit v1.9.0](https://github.com/square/retrofit)、[RxAndroid v1.0.1](https://github.com/ReactiveX/RxAndroid)及[RxJava v1.0.14](https://github.com/ReactiveX/RxJava)等库，若你的项目中也使用了这些依赖库并发生了冲突，请在添加本库依赖时进行操作：
 ```xml
 dependencies {
-    compile ('co.lujun:tpsharelogin:1.0.0'){
+    compile ('co.lujun:tpsharelogin:1.0.3'){
         exclude module:'retrofit'
         exclude module:'rxjava'
         exclude module:'rxandroid'
