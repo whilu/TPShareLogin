@@ -1,22 +1,31 @@
 # TPShareLogin [![Build Status](https://travis-ci.org/whilu/TPShareLogin.svg)](https://travis-ci.org/whilu/TPShareLogin)
+
 一个集成微博、微信和QQ第三方登录及分享功能的库
 
+## 截图
+
+<img src="/screenshots/shareloginlog.png" alt="shareloginlog.png" title="shareloginlog.png" width="730" height="220" />
+
 ## 开始使用
+
 ### 引入库
-#### Gradle
+
+##### Gradle
+
 ```xml
 dependencies {
     compile 'co.lujun:tpsharelogin:1.0.3'
 }
 ```
 
-#### 本地导入library使用
-######1、导入tpsharelogin库
-######2、在Project下的settings.gradle中添加`include ':tpsharelogin'`
-######3、使用该库的Module/build.gradle中dependencies语句添加`compile project(':tpsharelogin')`
+##### 本地导入
+* 导入tpsharelogin库
+* 在Project下的settings.gradle中添加`include ':tpsharelogin'`
+* 使用该库的Module/build.gradle中dependencies语句添加`compile project(':tpsharelogin')`
 
-### 使用
-首先，在AndroidManifest.xml中配置需要的权限
+### 使用库
+
+##### 权限配置
 ```xml
 <uses-permission android:name="android.permission.INTERNET" />
 <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -24,7 +33,7 @@ dependencies {
 <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
 ```
-再在AndroidManifest.xml中配置第三方平台的信息
+##### 第三方平台信息配置
 ```xml
 <!--QQ-->
 <activity
@@ -58,8 +67,9 @@ public class WXEntryActivity extends AssistActivity {
 }
 ```
 
-然后开始授权登录、分享！
-#####a. 在程序自定义的Application类中实例化TPManager
+##### 编写授权登录、分享代码
+
+######a. 在程序自定义的Application类中实例化TPManager
 ```java
 //参数分别为微博回调地址、微博APP KEY、微博APP SECRET、QQ APPID、QQ APPSECRET、微信APPID、微信APPSECRET
 TPManager.getInstance().initAppConfig(
@@ -67,9 +77,10 @@ TPManager.getInstance().initAppConfig(
         "", "",
         "", "");
 ```
-#####b. 登录及分享
+
+######b. 登录及分享
 分别提供了`QQManager`、`WXManager`和`WBManager`用于QQ、微信及微博的登录与分享的实现。设置StateListener<T>（必须）用于登录及分享的回调
-######QQ登录及分享
+* QQ登录及分享
 ```java
 QQManager qqManager = new QQManager(this);
 StateListener<String> qqStateListener = new StateListener<String>() {
@@ -112,7 +123,7 @@ setShareExt(int param)方法，默认对话列表且显示QZone按钮:
 * `QQShare.SHARE_TO_QQ_FLAG_QZONE_AUTO_OPEN` (分享到QQ客户端时默认QZone)
 * `QQShare.SHARE_TO_QQ_FLAG_QZONE_ITEM_HIDE` (分享到QQ客户端对话列表不显示QZone按钮)
 
-######微信登录及分享
+* 微信登录及分享
 ```java
 WXManager wxManager = new WXManager(this);
 wxManager.setListener(StateListener<String> wxStateListener);
@@ -132,7 +143,7 @@ setScene(int param)方法:
 * `WXShareContent.WXSession` (分享到微信客户端时对话列表，默认)
 * `WXShareContent.WXTimeline` (分享到微信朋友圈)
 
-######微博登录及分享
+* 微博登录及分享
 ```java
 WBManager wbManager = new WBManager(this);
 wbManager.setListener(StateListener<String> wbStateListener);
@@ -160,8 +171,7 @@ setShare_type(int param)方法，一般不需要特别指定:
 * `Config.SHARE_CLIENT` (单条分享，默认)
 * `Config.SHARE_ALL_IN_ONE` (多种类型集合分享)
 
-######授权登录
-授权登录成功返回的数据格式为json字符串，如下：
+** 注意授权登录第三方平台返回的信息，返回的数据格式为json字符串，如下：**
 ```xml
 {
   "user_data":{
@@ -175,7 +185,8 @@ setShare_type(int param)方法，一般不需要特别指定:
 更多详细使用请见[Sample](https://github.com/whilu/TPShareLogin/tree/master/sample)示例。
 
 ## 注意事项
-### 依赖库冲突
+
+##### 依赖库冲突问题
 本库使用了[Retrofit v1.9.0](https://github.com/square/retrofit)、[RxAndroid v1.0.1](https://github.com/ReactiveX/RxAndroid)及[RxJava v1.0.14](https://github.com/ReactiveX/RxJava)等库，若你的项目中也使用了这些依赖库并发生了冲突，请在添加本库依赖时进行操作：
 ```xml
 dependencies {
@@ -186,7 +197,8 @@ dependencies {
     }
 }
 ```
-### 混淆
+
+##### 混淆
 ```xml
 -keep class com.tencent.mm.sdk.** {*;}
 -keep class com.sina.**{*;}
@@ -196,10 +208,27 @@ dependencies {
 -keepattributes Exceptions
 ```
 
+## 感谢
+* [微信开发文档](https://open.weixin.qq.com/cgi-bin/showdocument?action=dir_list&t=resource/res_list&verify=1&lang=zh_CN)
+* [微博开发文档](http://open.weibo.com/wiki/%E9%A6%96%E9%A1%B5)
+* [QQ开发文档](http://wiki.connect.qq.com/)
+* [ShareLoginLib](https://github.com/lingochamp/ShareLoginLib)
+
 ## 关于
-根据[微信开发文档](https://open.weixin.qq.com/cgi-bin/showdocument?action=dir_list&t=resource/res_list&verify=1&lang=zh_CN)、[微博开发文档](http://open.weibo.com/wiki/%E9%A6%96%E9%A1%B5)和[QQ开发文档](http://wiki.connect.qq.com/)开发，参考[ShareLoginLib](https://github.com/lingochamp/ShareLoginLib)，有任何问题，[Email me](mailto:lujunat1993@gmail.com).
+如您有任何问题，请联系我：[lujun.byte#gmail.com](mailto:lujun.byte@gmail.com).
 
 ## License
-Copyright (c) 2015 [lujun](http://lujun.co)
 
-Licensed under the [Apache License, Version 2.0](http://www.apache.org/licenses/LICENSE-2.0.html)
+    Copyright 2015 lujun
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+     http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
