@@ -209,10 +209,10 @@ dependencies {
 ```
 
 ## 感谢
+* [ShareLoginLib](https://github.com/lingochamp/ShareLoginLib)
 * [微信开发文档](https://open.weixin.qq.com/cgi-bin/showdocument?action=dir_list&t=resource/res_list&verify=1&lang=zh_CN)
 * [微博开发文档](http://open.weibo.com/wiki/%E9%A6%96%E9%A1%B5)
 * [QQ开发文档](http://wiki.connect.qq.com/)
-* [ShareLoginLib](https://github.com/lingochamp/ShareLoginLib)
 
 ## 关于
 如您有任何问题，请联系我：[lujun.byte#gmail.com](mailto:lujun.byte@gmail.com).

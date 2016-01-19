@@ -47,7 +47,7 @@ import co.lujun.tpsharelogin.platform.weibo.listener.AsyncRequestListener;
 import co.lujun.tpsharelogin.platform.weibo.listener.AuthListener;
 import co.lujun.tpsharelogin.platform.weibo.openapi.UsersAPI;
 import co.lujun.tpsharelogin.util.ImageUtils;
-import co.lujun.tpsharelogin.utils.WXUtil;
+import co.lujun.tpsharelogin.util.WXUtil;
 
 /**
  * Created by lujun on 2015/9/7.

@@ -18,7 +18,7 @@ import com.tencent.mm.sdk.openapi.WXAPIFactory;
 import co.lujun.tpsharelogin.TPManager;
 import co.lujun.tpsharelogin.bean.WXShareContent;
 import co.lujun.tpsharelogin.listener.StateListener;
-import co.lujun.tpsharelogin.utils.WXUtil;
+import co.lujun.tpsharelogin.util.WXUtil;
 
 /**
  * Created by lujun on 2015/9/6.
