@@ -63,8 +63,8 @@ public class AssistActivity extends Activity {
                         if (TextUtils.isEmpty(accessToken)
                                 || TextUtils.isEmpty(expires_in)
                                 || TextUtils.isEmpty(openId)) {
-                            Log.e(TAG, "get auth info null!");
-                            mIntent.putExtra(Config.KEY_OF_QQ_BCR, "get auth info null!");
+                            Log.e(TAG, "get auth info error!");
+                            mIntent.putExtra(Config.KEY_OF_QQ_BCR, "get auth info error!");
                             onSendBroadCast();
                         }
                     } catch (JSONException e) {
@@ -77,7 +77,7 @@ public class AssistActivity extends Activity {
                     mIntent.putExtra(Config.KEY_OF_OPEN_ID, openId);
                     mIntent.putExtra(Config.KEY_OF_VERIFY_DATA, o.toString());
                 } else {
-                    mIntent.putExtra(Config.KEY_OF_QQ_BCR, "share successful!");
+                    mIntent.putExtra(Config.KEY_OF_QQ_BCR, "share success!");
                 }
                 onSendBroadCast();
             }

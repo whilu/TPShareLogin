@@ -55,7 +55,7 @@ public class AssistActivity extends Activity implements IWXAPIEventHandler {
                 if (baseResp.getType() == 1){//授权登录获取用户信息
                     getAccessToken(((SendAuth.Resp) baseResp).code);
                 }else if (baseResp.getType() == 2){// 分享
-                    mListener.onComplete("share successful!");
+                    mListener.onComplete("share success!");
                 }else {
                     mListener.onError("operation type is invalid!");
                 }

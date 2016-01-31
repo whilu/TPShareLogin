@@ -25,4 +25,4 @@ dependencies {
     compile 'io.reactivex:rxandroid:1.0.1'
     compile 'io.reactivex:rxjava:1.0.14'
 }
-apply from: 'https://raw.githubusercontent.com/whilu/AndroidPublishLibrary/master/project/library/bintray_publish.gradle'
+apply from: 'https://raw.githubusercontent.com/whilu/AndroidPublishLibrary/master/project/library/bintray_publish_sign.gradle'

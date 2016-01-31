@@ -325,8 +325,8 @@ public class AssistActivity extends Activity implements IWeiboHandler.Response {
     public void onResponse(BaseResponse baseResponse) {
         switch (baseResponse.errCode){
             case WBConstants.ErrorCode.ERR_OK:
-                Log.i(TAG, "share successfull!");
-                mIntent.putExtra(Config.KEY_OF_WB_BCR, "share successfull!");
+                Log.i(TAG, "share success!");
+                mIntent.putExtra(Config.KEY_OF_WB_BCR, "share success!");
                 onSendBroadCast();
                 break;
 
@@ -343,8 +343,8 @@ public class AssistActivity extends Activity implements IWeiboHandler.Response {
                 break;
 
             default:
-                Log.i(TAG, "unkown error!");
-                mIntent.putExtra(Config.KEY_OF_WB_BCR, "unkown error!");
+                Log.i(TAG, "unknown error!");
+                mIntent.putExtra(Config.KEY_OF_WB_BCR, "unknown error!");
                 onSendBroadCast();
                 break;
         }
