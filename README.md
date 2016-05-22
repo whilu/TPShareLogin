@@ -14,7 +14,7 @@
 
 ```xml
 dependencies {
-    compile 'co.lujun:tpsharelogin:1.0.3'
+    compile 'co.lujun:tpsharelogin:1.0.4'
 }
 ```
 
@@ -213,6 +213,10 @@ dependencies {
 * [微信开发文档](https://open.weixin.qq.com/cgi-bin/showdocument?action=dir_list&t=resource/res_list&verify=1&lang=zh_CN)
 * [微博开发文档](http://open.weibo.com/wiki/%E9%A6%96%E9%A1%B5)
 * [QQ开发文档](http://wiki.connect.qq.com/)
+
+## Change logs
+###1.0.4(2016-5-22)
+- 修复QQ登录无法回调问题
 
 ## 关于
 如您有任何问题，请联系我：[lujun.byte#gmail.com](mailto:lujun.byte@gmail.com).
