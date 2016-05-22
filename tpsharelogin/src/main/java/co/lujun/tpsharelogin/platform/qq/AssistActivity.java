@@ -24,6 +24,7 @@ public class AssistActivity extends Activity {
     private Tencent mTencent;
     private BaseUiListener mListener,  mUserInfoListener;
     private Intent mIntent;
+    private int mType;
 
     private static final String TAG = "AssistActivity";
 
@@ -34,6 +35,7 @@ public class AssistActivity extends Activity {
         //
         String appid;
         final int type = getIntent().getIntExtra(Config.KEY_OF_TYPE, 0x1000);
+        mType = type;
         final Bundle bundle = getIntent().getBundleExtra(Config.KEY_OF_BUNDLE);
         if ((appid = getIntent().getStringExtra(Config.KEY_OF_APPID)) == null
                 || type == 0x1000){
@@ -115,11 +117,15 @@ public class AssistActivity extends Activity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (mTencent != null){
-            mTencent.onActivityResult(requestCode, resultCode, data);
+        if (mType != Config.LOGIN_TYPE) {
+            if (mTencent != null){
+                mTencent.onActivityResult(requestCode, resultCode, data);
+            }
+            mIntent.putExtra(Config.KEY_OF_QQ_BCR, "have send!");
+            onSendBroadCast();
+        }else {
+            Tencent.onActivityResultData(requestCode, resultCode, data, mListener);
         }
-        mIntent.putExtra(Config.KEY_OF_QQ_BCR, "have send!");
-        onSendBroadCast();
     }
 
     private void onSendBroadCast(){
