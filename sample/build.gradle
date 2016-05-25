@@ -5,7 +5,7 @@ android {
 //       config {
 //           keyAlias 'lujun'
 //           keyPassword ''
-//           storeFile file('E:/Code/Android/Keystore/lujun.keystore')
+//           storeFile file('./lujun.keystore')
 //           storePassword ''
 //       }
     }

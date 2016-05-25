@@ -390,8 +390,10 @@ public class AssistActivity extends Activity implements IWeiboHandler.Response {
         } else if (mShareType == Config.SHARE_ALL_IN_ONE) {
             sendMultiMessage(hasText, hasImage, hasWebpage, hasMusic, hasVideo, hasVoice);
         }
-        mIntent.putExtra(Config.KEY_OF_WB_BCR, "weibo has send!");
-        onSendBroadCast();
+
+        // 注释掉此行AssistActivity将阻塞,直至微博给回调,在等到回调之前最好加个loading
+//        mIntent.putExtra(Config.KEY_OF_WB_BCR, "weibo has send!");
+//        onSendBroadCast();
     }
 
     /**
