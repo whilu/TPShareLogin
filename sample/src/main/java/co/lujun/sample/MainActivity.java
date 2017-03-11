@@ -29,7 +29,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private QQManager qqManager;
     private WXManager wxManager;
     private WBManager wbManager;
-    
+
     private final static String TAG = "TPShareLogin";
 
     @Override

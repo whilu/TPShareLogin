@@ -1,12 +1,12 @@
 # TPShareLogin [![Build Status](https://travis-ci.org/whilu/TPShareLogin.svg)](https://travis-ci.org/whilu/TPShareLogin)
 
-一个集成微博、微信和QQ第三方登录及分享功能的库
+集微博、微信和QQ第三方登录及分享功能的**轻量**库
 
 ## 截图
 
 <img src="/screenshots/shareloginlog.png" alt="shareloginlog.png" title="shareloginlog.png" width="730" height="220" />
 
-## 开始使用
+## 开始
 
 ### 引入库
 
@@ -14,18 +14,20 @@
 
 ```xml
 dependencies {
-    compile 'co.lujun:tpsharelogin:1.0.4'
+    compile 'co.lujun:tpsharelogin:1.1.0'
 }
 ```
 
 ##### 本地导入
-* 导入tpsharelogin库
-* 在Project下的settings.gradle中添加`include ':tpsharelogin'`
-* 使用该库的Module/build.gradle中dependencies语句添加`compile project(':tpsharelogin')`
 
-### 使用库
+1. 导入```tpsharelogin```
+2. 在项目下的 settings.gradle 文件中添加```include ':tpsharelogin'```
+3. 在使用该库的 module 的 build.gradle 文件中添加依赖```compile project(':tpsharelogin')```
+
+### 配置
 
 ##### 权限配置
+
 ```xml
 <uses-permission android:name="android.permission.INTERNET" />
 <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -33,7 +35,9 @@ dependencies {
 <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
 ```
+
 ##### 第三方平台信息配置
+
 ```xml
 <!--QQ-->
 <activity
@@ -58,7 +62,9 @@ dependencies {
 
 <!-- Weibo-->
 ```
-其中`WXEntryActivity`位于`程序包名.wxapi`下，继承自`co.lujun.tpsharelogin.platform.weixin.AssistActivity`，如下：
+
+**其中```WXEntryActivity```位于```程序包名.wxapi```下，继承自```co.lujun.tpsharelogin.platform.weixin.AssistActivity```**，如下：
+
 ```java
 package co.lujun.sample.wxapi;
 import co.lujun.tpsharelogin.platform.weixin.AssistActivity;
@@ -67,20 +73,22 @@ public class WXEntryActivity extends AssistActivity {
 }
 ```
 
-##### 编写授权登录、分享代码
+### 使用
 
-######a. 在程序自定义的Application类中实例化TPManager
+##### 初始化 ```TPManager```
+
 ```java
-//参数分别为微博回调地址、微博APP KEY、微博APP SECRET、QQ APPID、QQ APPSECRET、微信APPID、微信APPSECRET
-TPManager.getInstance().initAppConfig(
-        "", "", "",
-        "", "",
-        "", "");
+TPManager.getInstance().initAppConfig("", "", "", "", "", "", "");
 ```
 
-######b. 登录及分享
-分别提供了`QQManager`、`WXManager`和`WBManager`用于QQ、微信及微博的登录与分享的实现。设置StateListener<T>（必须）用于登录及分享的回调
-* QQ登录及分享
+**参数分别为微博回调地址、微博```APP KEY```、微博```APP SECRET```、QQ```APPID```、QQ```APPSECRET```、微信```APPID```、微信```APPSECRET```**
+
+##### 登录及分享
+
+分别提供了```QQManager```、```WXManager```和```WBManager```用于 QQ、微信及微博的登录与分享。设置```StateListener<T>```（必须）用于登录/分享回调
+
+###### QQ登录及分享
+
 ```java
 QQManager qqManager = new QQManager(this);
 StateListener<String> qqStateListener = new StateListener<String>() {
@@ -116,14 +124,19 @@ contentQQ.setShareType(QQShare.SHARE_TO_QQ_TYPE_DEFAULT)
         .setSummary("This is TPShareLogin test, 4 qq!");
 qqManager.share(contentQQ);
 ```
-setShareType(int param)方法:
-* `QQShare.SHARE_TO_QQ_TYPE_DEFAULT` (图文消息，默认)
-* `QQShare.SHARE_TO_QQ_TYPE_IMAGE` (本地图片)
-setShareExt(int param)方法，默认对话列表且显示QZone按钮:
-* `QQShare.SHARE_TO_QQ_FLAG_QZONE_AUTO_OPEN` (分享到QQ客户端时默认QZone)
-* `QQShare.SHARE_TO_QQ_FLAG_QZONE_ITEM_HIDE` (分享到QQ客户端对话列表不显示QZone按钮)
 
-* 微信登录及分享
+```setShareType(int param)```方法:
+
+* ```QQShare.SHARE_TO_QQ_TYPE_DEFAULT``` (图文消息，默认)
+* ```QQShare.SHARE_TO_QQ_TYPE_IMAGE``` (本地图片)
+
+```setShareExt(int param)```方法，默认对话列表且显示QZone按钮:
+
+* ```QQShare.SHARE_TO_QQ_FLAG_QZONE_AUTO_OPEN``` (分享到QQ客户端时默认QZone)
+* ```QQShare.SHARE_TO_QQ_FLAG_QZONE_ITEM_HIDE``` (分享到QQ客户端对话列表不显示QZone按钮)
+
+###### 微信登录及分享
+
 ```java
 WXManager wxManager = new WXManager(this);
 wxManager.setListener(StateListener<String> wxStateListener);
@@ -139,11 +152,13 @@ contentWX.setScene(WXShareContent.WXSession)
         .setType(WXShareContent.share_type.WebPage);
 wxManager.share(contentWX);
 ```
-setScene(int param)方法:
-* `WXShareContent.WXSession` (分享到微信客户端时对话列表，默认)
-* `WXShareContent.WXTimeline` (分享到微信朋友圈)
 
-* 微博登录及分享
+```setScene(int param)```方法:
+* ```WXShareContent.WXSession``` (分享到微信客户端时对话列表，默认)
+* ```WXShareContent.WXTimeline``` (分享到微信朋友圈)
+
+###### 微博登录及分享
+
 ```java
 WBManager wbManager = new WBManager(this);
 wbManager.setListener(StateListener<String> wbStateListener);
@@ -164,14 +179,19 @@ contentWB.setShare_method(WBShareContent.COMMON_SHARE)
         .setDefaultText("default action");
 wbManager.share(contentWB);
 ```
-setShare_method(int param)方法，一般使用客户端进行分享:
-* `WBShareContent.COMMON_SHARE` (调用客户端分享，默认)
-* `WBShareContent.API_SHARE` (API分享，不会调用客户端，分享回调到当前应用进行)
-setShare_type(int param)方法，一般不需要特别指定:
-* `Config.SHARE_CLIENT` (单条分享，默认)
-* `Config.SHARE_ALL_IN_ONE` (多种类型集合分享)
 
-** 注意授权登录第三方平台返回的信息，返回的数据格式为json字符串，如下：**
+```setShare_method(int param)```方法，一般使用客户端进行分享:
+
+* ```WBShareContent.COMMON_SHARE``` (调用客户端分享，默认)
+* ```WBShareContent.API_SHARE``` (API分享，不会调用客户端，分享回调到当前应用进行)
+
+```setShare_type(int param)```方法，一般不需要特别指定:
+
+* ```Config.SHARE_CLIENT``` (单条分享，默认)
+* ```Config.SHARE_ALL_IN_ONE``` (多种类型集合分享)
+
+**注意授权登录第三方平台返回的信息，返回的数据格式为json字符串，如下：**
+
 ```xml
 {
   "user_data":{
@@ -182,12 +202,15 @@ setShare_type(int param)方法，一般不需要特别指定:
   }
 }
 ```
+
 更多详细使用请见[Sample](https://github.com/whilu/TPShareLogin/tree/master/sample)示例。
 
 ## 注意事项
 
 ##### 依赖库冲突问题
+
 本库使用了[Retrofit v1.9.0](https://github.com/square/retrofit)、[RxAndroid v1.0.1](https://github.com/ReactiveX/RxAndroid)及[RxJava v1.0.14](https://github.com/ReactiveX/RxJava)等库，若你的项目中也使用了这些依赖库并发生了冲突，请在添加本库依赖时进行操作：
+
 ```xml
 dependencies {
     compile ('co.lujun:tpsharelogin:1.0.3'){
@@ -199,6 +222,7 @@ dependencies {
 ```
 
 ##### 混淆
+
 ```xml
 -keep class com.tencent.mm.sdk.** {*;}
 -keep class com.sina.**{*;}
@@ -209,16 +233,24 @@ dependencies {
 ```
 
 ## 感谢
+
 * [ShareLoginLib](https://github.com/lingochamp/ShareLoginLib)
 * [微信开发文档](https://open.weixin.qq.com/cgi-bin/showdocument?action=dir_list&t=resource/res_list&verify=1&lang=zh_CN)
 * [微博开发文档](http://open.weibo.com/wiki/%E9%A6%96%E9%A1%B5)
 * [QQ开发文档](http://wiki.connect.qq.com/)
 
 ## Change logs
+
+###1.1.0(2017-3-11)
+
+- 修复微博登录崩溃问题
+
 ###1.0.4(2016-5-22)
+
 - 修复QQ登录无法回调问题
 
 ## 关于
+
 如您有任何问题，请联系我：[lujun.byte#gmail.com](mailto:lujun.byte@gmail.com).
 
 ## License
