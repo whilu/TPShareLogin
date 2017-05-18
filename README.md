@@ -14,7 +14,7 @@
 
 ```xml
 dependencies {
-    compile 'co.lujun:tpsharelogin:1.1.0'
+    compile 'co.lujun:tpsharelogin:1.1.1'
 }
 ```
 
@@ -224,7 +224,7 @@ dependencies {
 ##### 混淆
 
 ```xml
--keep class com.tencent.mm.sdk.** {*;}
+-keep class com.tencent.mm.opensdk.** {*;}
 -keep class com.sina.**{*;}
 -keep class * extends android.app.Dialog
 -keep class retrofit.** { *; }
@@ -241,11 +241,15 @@ dependencies {
 
 ## Change logs
 
-###1.1.0(2017-3-11)
+### 1.1.1(2017-5-18)
+
+- 更新微信 SDK
+
+### 1.1.0(2017-3-11)
 
 - 修复微博登录崩溃问题
 
-###1.0.4(2016-5-22)
+### 1.0.4(2016-5-22)
 
 - 修复QQ登录无法回调问题
 

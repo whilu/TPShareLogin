@@ -17,7 +17,7 @@
 #}
 
 #微信
--keep class com.tencent.mm.sdk.** {*;}
+-keep class com.tencent.mm.opensdk.** {*;}
 #微博
 -keep class com.sina.**{*;}
 #QQ
